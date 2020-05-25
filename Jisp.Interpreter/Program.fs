@@ -43,21 +43,92 @@ let main argv =
             |> function
             | Error (e,_) ->
                 Console.ForegroundColor <- ConsoleColor.Red
-                printfn "Synax Error:%A" e
+                printfn "Syntax Error:%A" e
             | Ok (e,_) -> Jisp.Evalution.run Jisp.RuntimeLibrary.defaultContext e
             printfn ""
         Console.ForegroundColor <- ConsoleColor.Gray
         0  
 
     | "-c"::src::dest::[] ->  // Run as compiler
-        0 // Jisp 编译器
+        let src =
+            src
+            |> System.IO.File.ReadAllText
+        src
+        |> Jisp.Parser.Parser.parse
+        |> function
+        | Error (e,t) ->
+            printfn "Syntax Error(%d,%d):%A" t.row t.col e
+            -1
+        | Ok _ ->
+            src
+            |> Jisp.Parser.Preprocessor.preprocess
+            |> fun x ->
+                let tail = """
+
+[<EntryPoint>]
+let main args =
+    src
+    |> OurParserC.Input.create
+    |> Jisp.Parser.Expression.bareExpression
+    |> function
+    | Error (e,t) ->
+        printfn "Syntax Error(%d,%d):%A" t.row t.col e
+        -1
+    | Ok (ast,_) ->
+        Jisp.Evalution.run 
+            { Jisp.RuntimeLibrary.defaultContext with
+                Local = 
+                    let argv =
+                        args
+                        |> Array.toList
+                        |> List.map (fun (str:string) ->
+                            str.ToCharArray ()
+                            |> Array.map (int >> decimal >> Jisp.AST.Number)
+                            |> Array.toList
+                            |> Jisp.AST.Tuple)
+                        |> Jisp.AST.Tuple
+                    Jisp.Evalution.bindValues 
+                        Jisp.RuntimeLibrary.defaultContext.Local
+                        ["argv",argv] }
+            ast
+        0
+            """
+                let head = """let src = """
+                let code = sprintf "%s\"\"\"\n%s\n\"\"\"%s" head x tail
+
+                let tempSource = Environment.GetEnvironmentVariable("TEMP") + "/temp.fs"
+
+                System.IO.File.WriteAllText (tempSource,code)
+
+                let fscArgs = [
+                    "fsc.exe"
+                    "-r:Jisp.Core.dll"
+                    "-r:OurParserC.dll"
+
+                    "--nologo"
+                    "--standalone"
+                    "--optimize+"
+                    "-o";dest
+                    "--target:exe"
+                    "--crossoptimize+"
+                    tempSource
+                ]
+
+                let checker = FSharp.Compiler.SourceCodeServices.FSharpChecker.Create ()
+                checker.Compile (List.toArray fscArgs)
+                |> Async.RunSynchronously
+                |> ignore
+
+                System.IO.File.Delete tempSource
+
+            0
 
     | filename::args ->   // Run as Interpreter
         System.IO.File.ReadAllText filename
         |> Jisp.Parser.Parser.parse
         |> function
-        | Error (e,_) -> 
-            printfn "Synax Error:%A" e
+        | Error (e,t) -> 
+            printfn "Syntax Error(%d,%d):%A" t.row t.col e
             -1
         | Ok (e,_) -> 
             let argv =
