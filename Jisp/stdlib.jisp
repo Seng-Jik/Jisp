@@ -1,0 +1,101 @@
+;; Jisp Programming Language
+;; Standard Library
+;; By Seng Jik
+
+
+;; Basics
+
+;($$ (λ value f									;; Defined by Runtime
+;	(f value)))
+
+($ignore (λ a
+	()))
+
+($invoke (λ f a									;; Defined by Runtime
+	(invoke f a)))
+
+;($eval (λ src (...)))							;; Defined by Runtime
+
+;($failwith (λ message (...)))					;; Defined by Runtime
+
+;; Booleans
+
+($true 1)
+($false 0)
+
+($true-function (λ a b (a)))
+
+($false-function (λ a b (b)))
+
+($boolean-function (λ a 
+	(? a true-function false-function)))
+
+;($? (λ condition a b							;; Defined by Runtime
+;	((boolean-function condition) a b)))
+
+
+
+;; Boolean Operators
+
+($| (λ a b
+	(? a true (? b true false))))
+
+($& (λ a b
+	(? a (? b true false) false)))
+
+($! (λ a
+	(? a false true)))
+
+
+;; Function Operators
+
+($>> (λ f g 
+	(λ x (g (f (x))))))
+
+($<< (λ f g 
+	(λ x (f (g (x))))))
+
+
+;; Arithmetic Operators							;; Defined by Runtime
+;($+ (λ ... (...)))
+;($- (λ ... (...)))
+;($* (λ ... (...)))
+;($/ (λ ... (...)))
+
+
+;; Comparison Operators
+
+($= (λ a b 										;; Defined by Runtime
+	(= a b)))
+
+($< (λ a b 										;; Defined by Runtime
+	(< a b)))
+
+($!= (λ a b
+	(! (= a b))))
+
+($<= (λ a b
+	(| (< a b) (= a b))))
+
+($> (λ a b 
+	(! (<= a b))))
+
+($>= (λ a b 
+	(| (> a b) (= a b))))
+
+
+
+;; Tuple
+
+;($is-empty (λ t (...))							;; Defined by Runtime
+
+($cons (λ value tuple							;; Defined by Runtime
+	(cons value tuple)))
+
+;($head (λ tuple (...)))						;; Defined by Runtime
+
+;($tail (λ tuple (...)))						;; Defined by Runtime
+
+;; IO
+
+;($print-str-ln (λ str (...)))					;; Defined by Runtime

@@ -1,0 +1,12 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/Jisp/obj
+/Jisp/bin
+/Jisp.Interpreter/obj
+/Jisp.Interpreter/bin
+/Jisp.Test/obj
+/Jisp.Test/bin
+/packages
+/.vs/Jisp
