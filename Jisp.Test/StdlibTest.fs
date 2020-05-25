@@ -27,7 +27,7 @@ let run =
         Jisp.Evalution.eval Jisp.RuntimeLibrary.defaultContext ast
         |> function
         | Error e -> raise e
-        | Ok _ -> ()
+        | Ok x -> printfn "%A" x
 
 [<Test>]
 let Basics () =
@@ -35,6 +35,31 @@ let Basics () =
     test 1M "(invoke (> 2) (cons 1 ()))"
     test 0M "(invoke (< 2)) (cons 1 ())"
     test 3M """(eval "+ 1 2")"""
+
+    let rec fibo = function
+    | 1 | 2 -> 1M
+    | x -> fibo (x - 1) + fibo (x - 2)
+
+    let jispFibo = """
+        ($fibo (Y (λ self n 
+            (? (| (= n 1) (= n 2)) 
+                1
+                (+ (self (- n 1)) (self (- n 2)))))))
+        """
+
+    for i in 1..10 do
+        test (fibo i) (jispFibo + sprintf "(fibo %d)" i) 
+        run (jispFibo + sprintf "(fibo %d)" i) 
+
+    test 1M """
+    ($fibo (Y (λ self n 
+        (? (| (= n 1) (= n 2)) 
+            1
+            (+ (self (- n 1)) (self (- n 2)))))))
+
+    (fibo 2)
+
+    """
 
 [<Test>]
 let Booleans () =

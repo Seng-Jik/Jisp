@@ -187,6 +187,21 @@ let jispTuple : RuntimeFunc = fun context ->
     evalParams context
     >> Result.map Tuple
 
+let jispY : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.bind (function
+    | (Lambda f)::[] ->
+        let rec callSelf context : JispExpr list -> Result<JispValue,exn> =
+            evalParams context
+            >> Result.bind (fun x ->
+                Apply {
+                    Function = Value (Lambda f)
+                    Arguments = Value (rtFunc callSelf) :: (x |> List.map Value)
+                }
+                |> eval context)
+        Ok (rtFunc callSelf)
+    | _ -> Error InvalidArguments)
+
                 
 let defaultContext : Context = {
     Local = Map.empty
@@ -197,6 +212,7 @@ let defaultContext : Context = {
 
         "is-empty", rtFunc isEmpty
         "invoke",rtFunc jispInvoke
+        "Y", rtFunc jispY
         "eval", rtFunc jispEval
         "failwith", rtFunc jispFailwith
         "tuple", rtFunc jispTuple
@@ -226,6 +242,5 @@ let defaultContext : Context = {
     • reduce
     • unfold
     • generate
-    • Y
     * call-cc（可以用异常来实现）
     * try-catch *)

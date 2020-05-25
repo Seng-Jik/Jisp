@@ -15,7 +15,9 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Jisp.Interpreter", "Jisp.In
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{E62935C8-9222-4EDF-9253-A78C891D17F0}"
 	ProjectSection(SolutionItems) = preProject
+		Examples\Fibonacci.jisp = Examples\Fibonacci.jisp
 		Examples\HelloWorld.jisp = Examples\HelloWorld.jisp
+		Examples\PrintCommandLineArguments.jisp = Examples\PrintCommandLineArguments.jisp
 	EndProjectSection
 EndProject
 Global

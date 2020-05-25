@@ -38,6 +38,11 @@
 ;; string -> no-return
 ;($failwith (λ message (...)))
 
+;; Y Combinator
+;; Defined by Runtime.
+;($Y (λ f 
+;	($t (λ x (f (x x)))) 
+;	t t))
 
 ;;;;;;;; Booleans
 
