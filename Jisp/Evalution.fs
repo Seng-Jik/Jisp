@@ -70,7 +70,7 @@ let eval (context:Context) (ast:JispExpr) : Result<JispValue,exn> =
                                 eval { context with Local = f.FunctionContext } f.Expression))
        
        
-let rec private printResult = function
+let rec printResult = function
 | Number x -> printf "%M" x
 | Tuple [] -> ()
 | Tuple x -> 

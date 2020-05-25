@@ -129,6 +129,10 @@
 ;; Defined by Runtime
 ;($/ (λ ... (...)))
 
+;; a -> b -> c -> ... -> a % b % c % ...
+;; Defined by Runtime
+;($% (λ ... (...)))
+
 
 ;;;;;;;; Comparison Operators
 
@@ -187,6 +191,12 @@
 ;; Defined by Runtime
 ;; tuple -> tuple
 ;($tail (λ tuple (...)))
+
+;; Concat Function
+;; Concat tuples.
+;; Defined by Runtime.
+;; tuple -> ... -> tuple
+;($concat (λ ... (...)))
 
 ;;;;;;;; IO
 

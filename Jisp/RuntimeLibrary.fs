@@ -208,6 +208,18 @@ let jispExit : RuntimeFunc = fun context ->
     | x::[] -> Error (Exit x)
     | _ -> Error InvalidArguments)
 
+let jispConcat : RuntimeFunc = fun context a ->
+    try
+        evalParams context a
+        |> Result.bind (
+            List.map (function
+            | (Tuple x) -> x
+            | _ -> raise InvalidArguments)
+            >> List.concat
+            >> Tuple
+            >> Ok)
+    with e -> Error e
+
                 
 let defaultContext : Context = {
     Local = Map.empty
@@ -226,6 +238,7 @@ let defaultContext : Context = {
         "cons", rtFunc cons
         "head", rtFunc head
         "tail", rtFunc tail
+        "concat", rtFunc jispConcat
 
         "read-file", rtFunc jispReadFile
         "print-str-ln", rtFunc printStrLn
@@ -234,16 +247,13 @@ let defaultContext : Context = {
         "-", arithmeticOperator (-)
         "*", arithmeticOperator (*)
         "/", arithmeticOperator (/)
+        "%", arithmeticOperator (%)
         "=", comparisonOperator (=)
         "<", comparisonOperator (<) ]
     |> bindValues Map.empty
 }
     (* 需要完成后将一些内置函数移动到标准库中
     • len 求list长度
-    • concat 连接两个list
-    • choose
-    • collect
-    • map
     • fold
     • filter
     • reduce

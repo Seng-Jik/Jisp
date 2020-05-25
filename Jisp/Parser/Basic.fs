@@ -17,7 +17,7 @@ let bindBracket = Parsers.literal "($" >> Parsed.ignore
 let alpha = Parsers.charInSeq (Seq.concat [['a'..'z']; ['A'..'Z']])
 let number = Parsers.charInSeq ['0'..'9']
 let punctuation = Parsers.charInSeq [
-    '+';'-';'*';'/';'\\';'>';'<';'=';'!';'|';'&';'#';'?']
+    '+';'-';'*';'/';'%';'\\';'>';'<';'=';'!';'|';'&';'#';'?']
 
 let charlist2str = Parsed.map (List.toArray >> fun x -> new System.String (x))
 

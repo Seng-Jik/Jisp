@@ -27,7 +27,8 @@ let run =
         Jisp.Evalution.eval Jisp.RuntimeLibrary.defaultContext ast
         |> function
         | Error e -> raise e
-        | Ok x -> printfn "%A" x
+        | Ok x -> 
+            Jisp.Evalution.printResult x
 
 [<Test>]
 let Basics () =
@@ -140,6 +141,7 @@ let Tuple () =
     run "print-str-ln (cons 'H' (cons 'i' ()))"
     test 2M "head (tail (cons 1 (cons 2 (cons 3 ()))))"
     run "print-str-ln (tuple 'H' 'e' 'l' 'l' 'o' ' ' 'T' 'u' 'p' 'l' 'e')"
+    run """print-str-ln (concat "Hello" "World" "!")"""
 
 [<Test>]
 let IO () =
