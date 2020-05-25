@@ -14,6 +14,9 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Jisp.Interpreter", "Jisp.Interpreter\Jisp.Interpreter.fsproj", "{4A551577-3239-4ABC-8FA6-F3E22258A0DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{E62935C8-9222-4EDF-9253-A78C891D17F0}"
+	ProjectSection(SolutionItems) = preProject
+		Examples\HelloWorld.jisp = Examples\HelloWorld.jisp
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
