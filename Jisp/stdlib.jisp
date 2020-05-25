@@ -44,6 +44,12 @@
 ;	($t (λ x (f (x x)))) 
 ;	t t))
 
+;; Exit Function
+;; Stop evaluation and return a result.
+;; Defined by Runtime.
+;; result -> no-return
+;($exit (λ result (...)))
+
 ;;;;;;;; Booleans
 
 ;; Boolean Constants

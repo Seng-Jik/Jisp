@@ -13,7 +13,7 @@ let test input =
     |> function
     | Error e -> printfn "%A" e
     | Ok (ast,_) ->
-        run defaultContext ast
+        run defaultContext ast |> ignore
 
 [<Test>]
 let TestSimpleExpression () =

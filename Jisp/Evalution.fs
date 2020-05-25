@@ -5,6 +5,7 @@ open AST
 exception IdenifierNotFound of string
 exception CanNotCallTheValue
 exception InvalidArguments
+exception Exit of JispValue
 
 let bindValues (binds:Map<string,JispValue>) nameValueSeq = 
     Seq.fold (fun local (name,value) -> Map.add name value local) binds nameValueSeq
@@ -67,23 +68,41 @@ let eval (context:Context) (ast:JispExpr) : Result<JispValue,exn> =
                                 f |> CustumFunc |> Lambda |> Ok
                             else
                                 eval { context with Local = f.FunctionContext } f.Expression))
-                            
+       
+       
+let rec private printResult = function
+| Number x -> printf "%M" x
+| Tuple [] -> ()
+| Tuple x -> 
+    printf "(tuple"
+    List.iter (fun x ->
+        printf " "
+        printResult x)
+        x
+    printf ")"
+| Lambda x -> 
+    match x with
+    | RuntimeFunc f -> printf "(λ ??? (%A))" f
+    | CustumFunc f ->
+        printf "(λ "
+        for i in f.Parameters do printf "%s " i
+        printf "(...))"
+
+
 let run context =
     eval context
     >> function
+    | Error (Exit result) ->
+        printResult result
+        printfn ""
+        Error (Exit result)
+    | Ok result -> 
+        printResult result
+        printfn ""
+        Ok (result)
     | Error e -> 
         printfn "Error:%A" e
-    | Ok result -> 
-        match result with
-        | Number x -> printfn "%M" x
-        | Tuple [] -> ()
-        | Tuple x -> printfn "%A" x
-        | Lambda x -> 
-            match x with
-            | RuntimeFunc f -> printfn "(λ ??? (%A))" f
-            | CustumFunc f ->
-                printf "(λ "
-                for i in f.Parameters do printfn "%s " i
-                printfn "(...))"
+        Error e
 
+        
         

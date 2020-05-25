@@ -32,7 +32,8 @@ let main argv =
 
     | [] ->     // Run as Interactive
         banner ()
-        while true do
+        let mutable cont = true
+        while cont do
             Console.ForegroundColor <- ConsoleColor.Green
             printf "> "
             let line = Console.ReadLine ()
@@ -44,7 +45,10 @@ let main argv =
             | Error (e,_) ->
                 Console.ForegroundColor <- ConsoleColor.Red
                 printfn "Syntax Error:%A" e
-            | Ok (e,_) -> Jisp.Evalution.run Jisp.RuntimeLibrary.defaultContext e
+            | Ok (e,_) -> 
+                match Jisp.Evalution.run Jisp.RuntimeLibrary.defaultContext e with
+                | Error (Jisp.Evalution.Exit _) -> cont <- false
+                | _ -> ()
             printfn ""
         Console.ForegroundColor <- ConsoleColor.Gray
         0  
@@ -91,6 +95,7 @@ let main args =
                         Jisp.RuntimeLibrary.defaultContext.Local
                         ["argv",argv] }
             ast
+        |> ignore
         0
             """
                 let head = """let src = """
@@ -145,4 +150,5 @@ let main args =
                         Jisp.Evalution.bindValues
                             Jisp.RuntimeLibrary.defaultContext.Local ["argv",argv] }
                 e
+            |> ignore
             0

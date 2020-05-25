@@ -202,6 +202,12 @@ let jispY : RuntimeFunc = fun context ->
         Ok (rtFunc callSelf)
     | _ -> Error InvalidArguments)
 
+let jispExit : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.bind (function
+    | x::[] -> Error (Exit x)
+    | _ -> Error InvalidArguments)
+
                 
 let defaultContext : Context = {
     Local = Map.empty
@@ -213,6 +219,7 @@ let defaultContext : Context = {
         "is-empty", rtFunc isEmpty
         "invoke",rtFunc jispInvoke
         "Y", rtFunc jispY
+        "exit", rtFunc jispExit
         "eval", rtFunc jispEval
         "failwith", rtFunc jispFailwith
         "tuple", rtFunc jispTuple
