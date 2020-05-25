@@ -228,5 +228,4 @@ let defaultContext : Context = {
     • generate
     • Y
     * call-cc（可以用异常来实现）
-    * try-catch
-    • argv （这是一个list类型的值，用于读取命令行参数）*)
+    * try-catch *)
