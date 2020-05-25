@@ -92,6 +92,8 @@
 ($cons (λ value tuple							;; Defined by Runtime
 	(cons value tuple)))
 
+;($tuple (λ ... (...)))							;; Defined by Runtime
+
 ;($head (λ tuple (...)))						;; Defined by Runtime
 
 ;($tail (λ tuple (...)))						;; Defined by Runtime

@@ -183,6 +183,10 @@ let jispEval : RuntimeFunc = fun context ->
         with e -> Error e
     | _ -> Error InvalidArguments)
 
+let jispTuple : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.map Tuple
+
                 
 let defaultContext : Context = {
     Local = Map.empty
@@ -195,6 +199,7 @@ let defaultContext : Context = {
         "invoke",rtFunc jispInvoke
         "eval", rtFunc jispEval
         "failwith", rtFunc jispFailwith
+        "tuple", rtFunc jispTuple
         "cons", rtFunc cons
         "head", rtFunc head
         "tail", rtFunc tail

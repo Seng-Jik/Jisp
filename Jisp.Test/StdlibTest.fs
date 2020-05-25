@@ -114,6 +114,7 @@ let ComparisonOperators () =
 let Tuple () =
     run "print-str-ln (cons 'H' (cons 'i' ()))"
     test 2M "head (tail (cons 1 (cons 2 (cons 3 ()))))"
+    run "print-str-ln (tuple 'H' 'e' 'l' 'l' 'o' ' ' 'T' 'u' 'p' 'l' 'e')"
 
 [<Test>]
 let IO () =
