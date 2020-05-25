@@ -253,9 +253,10 @@ let defaultContext : Context = {
     |> bindValues Map.empty
 }
     (* 需要完成后将一些内置函数移动到标准库中
-    • len 求list长度
-    • fold
+    * collect
+    * map
     • filter
+    • fold
     • reduce
     • unfold
     • generate

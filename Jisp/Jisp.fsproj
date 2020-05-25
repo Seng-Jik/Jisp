@@ -58,7 +58,7 @@
     <Compile Include="Parser\Parser.fs" />
     <Compile Include="RuntimeLibrary.fs" />
     <Content Include="stdlib.jisp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

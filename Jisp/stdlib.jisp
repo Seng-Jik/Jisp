@@ -198,6 +198,15 @@
 ;; tuple -> ... -> tuple
 ;($concat (λ ... (...)))
 
+;; Length Function
+;; Get the length of the tuple.
+;; tuple -> number
+($len (Y (λ self t 
+	(? (is-empty t)
+		0
+		(+ 1 (self (tail t)))))))
+
+
 ;;;;;;;; IO
 
 ;; Print String Line Function
