@@ -3,10 +3,10 @@ Jisp Programming Language
 
 ## Examples
 
-[HelloWorld.jisp](Examples\HelloWorld.jisp)
+[HelloWorld.jisp](Examples/HelloWorld.jisp)
 ```
 print-str-ln "Hello, world!"
 ```
 
 
-[stdlib.jisp](Jisp\stdlib.jisp)
+[stdlib.jisp](Jisp/stdlib.jisp)
