@@ -1,74 +1,134 @@
-;; Jisp Programming Language
-;; Standard Library
-;; By Seng Jik
+;;;; Jisp Programming Language
+;;;; Standard Library
+;;;; By Seng Jik
 
 
-;; Basics
+;;;;;;;; Basics
 
-;($$ (λ value f									;; Defined by Runtime
+;; Bind Function
+;; Bind a value to a identifier.
+;; This function is a part of syntax.
+;; Defined by Runtime.
+;; value -> f -> (f value)
+;($$ (λ value f	
 ;	(f value)))
 
+;; Ignore Function
+;; Ignore a value and return a unit.
+;; value -> unit
 ($ignore (λ a
 	()))
 
-($invoke (λ f a									;; Defined by Runtime
+;; Invoke Function
+;; Invoke a function and pass arguments from tuple.
+;; Defined by Runtime.
+;; f -> arguments tuple -> (f arguments)
+($invoke (λ f a
 	(invoke f a)))
 
-;($eval (λ src (...)))							;; Defined by Runtime
+;; Eval Function
+;; Invoke an expression from string.
+;; Defined by Runtime.
+;; string -> result
+;($eval (λ src (...)))
 
-;($failwith (λ message (...)))					;; Defined by Runtime
+;; Failwith Function
+;; Raise an exception.
+;; Defined by Runtime.
+;; string -> no-return
+;($failwith (λ message (...)))
 
-;; Booleans
 
+;;;;;;;; Booleans
+
+;; Boolean Constants
 ($true 1)
 ($false 0)
 
+;; True Function
+;; a -> b -> a
 ($true-function (λ a b (a)))
 
+;; False Function
+;; a -> b -> b
 ($false-function (λ a b (b)))
 
+;; Boolean-Function Function
+;; Get a boolean function from a boolean constant
+;; bool -> boolean-function
 ($boolean-function (λ a 
 	(? a true-function false-function)))
 
-;($? (λ condition a b							;; Defined by Runtime
+;; If Operator
+;; If condition is true, return a, otherwise, return b.
+;; Defined by Runtime.
+;; (bool) (a) (b) -> a or b
+;; Can not be curried.
+;($? (λ condition a b
 ;	((boolean-function condition) a b)))
 
 
 
-;; Boolean Operators
+;;;;;;;; Boolean Operators
 
+;; Or Operator
+;; bool -> bool -> bool
 ($| (λ a b
 	(? a true (? b true false))))
 
+;; And Operator
+;; bool -> bool -> bool
 ($& (λ a b
 	(? a (? b true false) false)))
 
+;; Not Operator
+;; bool -> bool
 ($! (λ a
 	(? a false true)))
 
 
-;; Function Operators
+;;;;;;;; Function Operators
 
+;; Forward Function Combine Operator
+;; a -> b -> (λ x (b (a x))
 ($>> (λ f g 
 	(λ x (g (f (x))))))
 
+;; Backward Function Combine Operator
+;; a -> b -> (λ x (a (b x))
 ($<< (λ f g 
 	(λ x (f (g (x))))))
 
 
-;; Arithmetic Operators							;; Defined by Runtime
+;;;;;;;; Arithmetic Operators
+
+;; a -> b -> c -> ... -> a + b + c + ...
+;; Defined by Runtime
 ;($+ (λ ... (...)))
+
+;; a -> b -> c -> ... -> a - b - c - ...
+;; Defined by Runtime
 ;($- (λ ... (...)))
+
+;; a -> b -> c -> ... -> a * b * c * ...
+;; Defined by Runtime
 ;($* (λ ... (...)))
+
+;; a -> b -> c -> ... -> a / b / c / ...
+;; Defined by Runtime
 ;($/ (λ ... (...)))
 
 
-;; Comparison Operators
+;;;;;;;; Comparison Operators
 
-($= (λ a b 										;; Defined by Runtime
+;; a -> b -> bool
+
+;; Defined by Runtime
+($= (λ a b 
 	(= a b)))
 
-($< (λ a b 										;; Defined by Runtime
+;; Defined by Runtime
+($< (λ a b 
 	(< a b)))
 
 ($!= (λ a b
@@ -85,19 +145,48 @@
 
 
 
-;; Tuple
+;;;;;;;; Tuple
 
-;($is-empty (λ t (...))							;; Defined by Runtime
+;; Is-Empty Function
+;; tuple -> bool
+;; Defined by Runtime
+;($is-empty (λ t (...))
 
-($cons (λ value tuple							;; Defined by Runtime
+;; Cons Function
+;; Add a value to the most left of tuple.
+;; Defined by Runtime
+;; value -> tuple -> tuple
+($cons (λ value tuple
 	(cons value tuple)))
 
-;($tuple (λ ... (...)))							;; Defined by Runtime
+;; Tuple Function
+;; Create a tuple from given arguments.
+;; Defined by Runtime
+;; a -> b -> c -> ... -> tuple
+;($tuple (λ ... (...)))
 
-;($head (λ tuple (...)))						;; Defined by Runtime
+;; Head Function
+;; Return the most left element of tuple.
+;; Defined by Runtime
+;; tuple<element> -> element
+;($head (λ tuple (...)))
 
-;($tail (λ tuple (...)))						;; Defined by Runtime
+;; Tail Function
+;; Return the tuple and remove the most left element.
+;; Defined by Runtime
+;; tuple -> tuple
+;($tail (λ tuple (...)))
 
-;; IO
+;;;;;;;; IO
 
-;($print-str-ln (λ str (...)))					;; Defined by Runtime
+;; Print String Line Function
+;; Print a line of string.
+;; Defined by Runtime.
+;; string -> unit
+;($print-str-ln (λ str (...)))
+
+
+;; Read File Function
+;; Read file from filesystem.
+;; filename -> number tuple
+;($read-file (λ filename (...)))
