@@ -342,6 +342,12 @@
 ;; string -> unit
 ;($print-str-ln (λ str (...)))
 
+;; Print String Function
+;; Print string.
+;; Defined by Runtime.
+;; string -> unit
+;($print-str (λ str (...)))
+
 
 ;; Read File Function
 ;; Read file from filesystem.

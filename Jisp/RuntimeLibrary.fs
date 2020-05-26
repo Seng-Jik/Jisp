@@ -74,6 +74,23 @@ let printStrLn : RuntimeFunc = fun context ->
         with e -> Error e
     | _ -> Error (InvalidArguments "For print-str-ln function, only pass 1 argument.")
 
+let printStr : RuntimeFunc = fun context ->
+    function
+    | str::[] ->
+        try
+            eval context str
+            |> Result.bind (fun x ->
+                match x with
+                | Tuple x ->
+                    getStr x |> printf "%s"
+                    Ok (Tuple [])
+                | Number x ->
+                    printf "%s" (string (char x))
+                    Ok (Tuple [])
+                | _ -> Error (InvalidArguments "For print-str function, the argument should be number or tuple."))
+        with e -> Error e
+    | _ -> Error (InvalidArguments "For print-str function, only pass 1 argument.")
+
 
 let isEmpty : RuntimeFunc = fun context ->
     function
@@ -228,6 +245,7 @@ let defaultContext : Context = {
         "concat", rtFunc jispConcat
 
         "read-file", rtFunc jispReadFile
+        "print-str", rtFunc printStr
         "print-str-ln", rtFunc printStrLn
 
         "+", arithmeticOperator (+)
