@@ -32,6 +32,9 @@
 ;; string -> result
 ;($eval (λ src (...)))
 
+
+;;;;;;;; Controls
+
 ;; Failwith Function
 ;; Raise an exception.
 ;; Defined by Runtime.
@@ -42,11 +45,23 @@
 ;; Defined by Runtime.
 ;($Y (λ f 
 ;	($t (λ x (f (x x)))) 
-;	t t))
+;		t t))
 
 ;; Call Current Continuation Function
 ;; Defined by Runtime.
 ;($call-cc (λ f (...)))
+
+;; While Function
+
+;; For Function
+
+;; For-Each Function
+
+;; Do-While Function
+
+;; Non-Local-Exit Function
+
+;; Try-Catch Function
 
 
 ;;;;;;;; Booleans

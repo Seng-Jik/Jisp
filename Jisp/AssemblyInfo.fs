@@ -7,12 +7,12 @@ open System.Runtime.InteropServices
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[<assembly: AssemblyTitle("Jisp")>]
-[<assembly: AssemblyDescription("")>]
+[<assembly: AssemblyTitle("Jisp Programming Language")>]
+[<assembly: AssemblyDescription("Jisp Programming Language")>]
 [<assembly: AssemblyConfiguration("")>]
-[<assembly: AssemblyCompany("")>]
-[<assembly: AssemblyProduct("Jisp")>]
-[<assembly: AssemblyCopyright("Copyright ©  2020")>]
+[<assembly: AssemblyCompany("Seng Jik")>]
+[<assembly: AssemblyProduct("Jisp Programming Language")>]
+[<assembly: AssemblyCopyright("Copyright © Seng Jik 2020")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
 

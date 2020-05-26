@@ -295,11 +295,3 @@ let defaultContext : Context = {
         "<", comparisonOperator (<) ]
     |> bindValues Map.empty
 }
-(* 
-    * for-each
-    * for
-    * while
-    * do
-    * return 
-    * try-catch
-    *)
