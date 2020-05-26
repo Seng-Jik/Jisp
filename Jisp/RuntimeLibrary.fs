@@ -207,12 +207,6 @@ let jispY : RuntimeFunc = fun context ->
         Ok (rtFunc callSelf)
     | _ -> Error (InvalidArguments "For Y combinator, only pass a function."))
 
-let jispExit : RuntimeFunc = fun context ->
-    evalParams context
-    >> Result.bind (function
-    | x::[] -> Error (Exit x)
-    | _ -> Error (InvalidArguments "For exit function, only pass 1 argument."))
-
 let jispConcat : RuntimeFunc = fun context a ->
     try
         evalParams context a
@@ -258,7 +252,6 @@ let defaultContext : Context = {
         "invoke",rtFunc jispInvoke
         "Y", rtFunc jispY
         "call-cc", rtFunc jispCallCC
-        "exit", rtFunc jispExit
         "eval", rtFunc jispEval
         "failwith", rtFunc jispFailwith
         "tuple", rtFunc jispTuple
@@ -279,3 +272,11 @@ let defaultContext : Context = {
         "<", comparisonOperator (<) ]
     |> bindValues Map.empty
 }
+(* 使用call-cc实现控制流
+    * for-each
+    * for
+    * while
+    * do
+    * return 
+    * try-catch
+    *)

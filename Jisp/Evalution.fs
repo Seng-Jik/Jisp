@@ -5,7 +5,6 @@ open AST
 exception IdenifierNotFound of string
 exception CanNotCallTheValue
 exception InvalidArguments of string
-exception Exit of JispValue
 
 let bindValues (binds:Map<string,JispValue>) nameValueSeq = 
     Seq.fold (fun local (name,value) -> Map.add name value local) binds nameValueSeq
@@ -92,9 +91,6 @@ let rec printResult = function
 let run context =
     eval context
     >> function
-    | Error (Exit result) ->
-        printResult result
-        Error (Exit result)
     | Ok result -> 
         printResult result
         Ok (result)

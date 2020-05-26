@@ -32,24 +32,27 @@ let main argv =
 
     | [] ->     // Run as Interactive
         banner ()
+        printfn "Type \"exit\" to exit interactive."
+        printfn ""
         let mutable cont = true
         while cont do
             Console.ForegroundColor <- ConsoleColor.Green
             printf "> "
             let line = Console.ReadLine ()
 
-            Console.ForegroundColor <- ConsoleColor.Cyan
-            line
-            |> Jisp.Parser.Parser.parse
-            |> function
-            | Error (e,_) ->
-                Console.ForegroundColor <- ConsoleColor.Red
-                printfn "Syntax Error:%A" e
-            | Ok (e,_) -> 
-                match Jisp.Evalution.run Jisp.RuntimeLibrary.defaultContext e with
-                | Error (Jisp.Evalution.Exit _) -> cont <- false
-                | _ -> ()
-            printfn ""
+            if line.Trim () = "exit" then
+                cont <- false
+            else
+                Console.ForegroundColor <- ConsoleColor.Cyan
+                line
+                |> Jisp.Parser.Parser.parse
+                |> function
+                | Error (e,_) ->
+                    Console.ForegroundColor <- ConsoleColor.Red
+                    printfn "Syntax Error:%A" e
+                | Ok (e,_) -> 
+                    Jisp.Evalution.run Jisp.RuntimeLibrary.defaultContext e |> ignore
+                printfn ""
         Console.ForegroundColor <- ConsoleColor.Gray
         0  
 
