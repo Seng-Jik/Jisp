@@ -150,6 +150,9 @@ let Tuple () =
     test 7M "first (tuple 7 1 2 4 0 1 0)"
     test 1M "second (tuple 7 1 2 4 0 1 0)"
     test 2M "third (tuple 7 1 2 4 0 1 0)"
+    run "range 1 10"
+    printfn ""
+    run "generate 10 (λ x (- 0 x))"
 
 [<Test>]
 let IO () =

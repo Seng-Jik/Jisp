@@ -250,6 +250,22 @@
 		(($r (self f (tail t))) 
 			(? (f (head t)) (cons (head t) r) r) )))))
 
+;; Range Function
+;; Generate a tuple by a integer range.
+;; int -> int -> int tuple
+($range (Y (λ self x y
+	(? (= x y) 
+		(tuple x)
+		(? (< x y)
+			(cons x (self (+ x 1) y))
+			(cons x (self (- x 1) y)))))))
+
+;; Generate Function
+;; Generate a tuple by a (index -> element).
+;; count -> (index -> element) -> tuple
+($generate (λ count generator (
+	map generator (range 0 (- count 1)))))
+
 ;;;;;;;; IO
 
 ;; Print String Line Function

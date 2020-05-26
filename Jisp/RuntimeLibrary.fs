@@ -256,7 +256,5 @@ let defaultContext : Context = {
     • fold
     • reduce
     • unfold
-    * range
-    • generate
     * call-cc（可以用异常来实现）
     * try-catch *)
