@@ -29,6 +29,7 @@ let run =
         | Error e -> raise e
         | Ok x -> 
             Jisp.Evalution.printResult x
+            printfn ""
 
 [<Test>]
 let Basics () =
@@ -165,9 +166,11 @@ let Tuple () =
     test 15M "fold (λ state e (+ state e)) 0 (tuple 1 2 3 4 5)"
     test 21M "reduce (λ x y (+ x y)) (tuple 1 2 3 4 5 6)"
     test 5M "head (reverse (tuple 1 2 3 4 5))"
+    run "slice 1 3 (tuple 0 1 2 3 4 5 6 7)"
     run "range 1 10"
-    printfn ""
     run "generate 10 (λ x (- 0 x))"
+    run "take 3 (tuple 1 2 3 4 5 6 7)"
+    run "skip 3 (tuple 1 2 3 4 5 6 7)"
 
 [<Test>]
 let IO () =

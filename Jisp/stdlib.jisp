@@ -312,6 +312,28 @@
 ($reverse (λ t (
 	fold (λ u e (cons e u)) () t)))
 
+;; Take Function
+;; Take left elements from tuple.
+;; count -> tuple -> tuple
+($take (Y (λ self count t 
+	(? (> count 0) 
+		(cons (head t) (self (- count 1) (tail t)))
+		() ))))
+
+;; Skip Function
+;; Skip left elements from tuple.
+;; count -> tuple -> tuple
+($skip (Y (λ self count t 
+	(? (> count 0) 
+		(self (- count 1) (tail t))
+		t))))
+
+;; Slice Function
+;; Slice the tuple.
+;; begin -> end -> tuple -> tuple
+($slice (λ begin end t
+	(skip begin (take (+ end 1) t))))
+
 ;;;;;;;; IO
 
 ;; Print String Line Function
