@@ -346,11 +346,11 @@
 
 ;;;;;;;; IO
 
-;; Print String Line Function
-;; Print a line of string.
+;; Print Function
+;; Print value.
 ;; Defined by Runtime.
-;; string -> unit
-;($print-str-ln (λ str (...)))
+;; any -> unit
+;($print (λ any (...)))
 
 ;; Print String Function
 ;; Print string.
@@ -358,6 +358,21 @@
 ;; string -> unit
 ;($print-str (λ str (...)))
 
+;; Print String Line Function
+;; Print a line of string.
+;; Defined by Runtime.
+;; string -> unit
+;($print-str-ln (λ str (...)))
+
+;; Read Line Function
+;; Read line from console.
+;; unit -> string
+;($read-line (λ _ (...)))
+
+;; Read Key Function
+;; Read key from console.
+;; unit -> char
+;($read-key (λ _ (...)))
 
 ;; Read File Function
 ;; Read file from filesystem.

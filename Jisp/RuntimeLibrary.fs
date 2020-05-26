@@ -240,6 +240,26 @@ let jispCallCC : RuntimeFunc = fun context ->
         | Error e -> Error e
     | _ -> Error (InvalidArguments "For call-cc function, only pass 1 function as argument."))
 
+let jispPrint : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.bind (function
+    | x :: [] -> 
+        printResult x
+        Ok (Tuple [])
+    | _ -> Error (InvalidArguments "For print function, only pass 1 argument."))
+
+let jispReadline : RuntimeFunc = fun _ _ ->
+    System.Console.ReadLine().ToCharArray()
+    |> Array.toList
+    |> List.map (int >> JispNumber >> Number)
+    |> Tuple
+    |> Ok
+
+let jispReadKey : RuntimeFunc = fun _ _ ->
+    System.Console.ReadKey (true)
+    |> fun x -> x.KeyChar
+    |> (int >> JispNumber >> Number)
+    |> Ok
                 
 let defaultContext : Context = {
     Local = Map.empty
@@ -259,7 +279,10 @@ let defaultContext : Context = {
         "tail", rtFunc tail
         "concat", rtFunc jispConcat
 
+        "read-key", rtFunc jispReadKey
+        "read-line", rtFunc jispReadline
         "read-file", rtFunc jispReadFile
+        "print", rtFunc jispPrint
         "print-str", rtFunc printStr
         "print-str-ln", rtFunc printStrLn
 
@@ -279,7 +302,4 @@ let defaultContext : Context = {
     * do
     * return 
     * try-catch
-    * read-key
-    * read-line
-    * print
     *)
