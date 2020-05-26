@@ -171,6 +171,7 @@ let Tuple () =
     run "generate 10 (λ x (- 0 x))"
     run "take 3 (tuple 1 2 3 4 5 6 7)"
     run "skip 3 (tuple 1 2 3 4 5 6 7)"
+    run "unfold (λ state (? (> (- state 1) 0) (tuple (- state 1) (- state 1)) () )) 10"
 
 [<Test>]
 let IO () =

@@ -258,6 +258,5 @@ let defaultContext : Context = {
     |> bindValues Map.empty
 }
     (* 需要完成后将一些内置函数移动到标准库中
-    • unfold
     * call-cc（可以用异常来实现）
     * try-catch *)

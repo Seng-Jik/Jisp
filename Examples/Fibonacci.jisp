@@ -1,7 +1,7 @@
 ($fibo (Y (λ self n 
     (? (| (= n 0) (= n 1)) 
         1
-        (+ (self (- n 1)) (self (- n 2)))))))
+        (+ (self (- n 1)) (self (- n 2))) ))))
 
 
 generate 20 fibo

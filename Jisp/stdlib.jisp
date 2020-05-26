@@ -334,6 +334,17 @@
 ($slice (λ begin end t
 	(skip begin (take (+ end 1) t))))
 
+;; Unfold Function
+;; Unfold a function to a tuple.
+;; (state -> empty-tuple | (tuple next-state element)) -> state -> tuple
+($unfold (Y (λ self f state 
+	($current-state (f state))
+	(? (is-empty current-state)
+		()
+		(($next-state (first current-state)) 
+			($element (second current-state)) 
+			(cons element (self f next-state)) )))))
+
 ;;;;;;;; IO
 
 ;; Print String Line Function
