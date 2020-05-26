@@ -159,6 +159,32 @@
 	(| (> a b) (= a b))))
 
 
+;;;;;;;; Math
+
+;; Min Function
+;; number -> number -> number
+($min (λ a b 
+	(? (> a b) b a) ))
+
+;; Max Function
+;; number -> number -> number
+($max (λ a b 
+	(? (> a b) a b) ))
+
+;; Abs Function
+;; number -> number
+($abs (λ a
+	(? (< a 0) (- 0 a) a) ))
+
+;; Clamp Function
+;; min-number -> max-number -> number -> number
+($clamp (λ min max x 
+	(? (<= x min) 
+		min
+		(? (>= x max)
+			max
+			x))))
+
 
 ;;;;;;;; Tuple
 

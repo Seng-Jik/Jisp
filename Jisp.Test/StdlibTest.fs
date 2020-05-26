@@ -137,6 +137,18 @@ let ComparisonOperators () =
     test 0M "(>= 1) 2"
 
 [<Test>]
+let Math () =
+    test 1M "min 2 1"
+    test 1M "min 1 2"
+    test 1M "max 0 1"
+    test 1M "max 1 0"
+    test 1M "abs -1"
+    test 1M "abs 1"
+    test 1M "clamp 0 2 1"
+    test 1M "clamp 0 1 100"
+    test 1M "clamp 1 100 0"
+
+[<Test>]
 let Tuple () =
     run "print-str-ln (cons 'H' (cons 'i' ()))"
     test 2M "head (tail (cons 1 (cons 2 (cons 3 ()))))"
