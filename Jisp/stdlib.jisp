@@ -80,6 +80,17 @@
 ;; For-Each Function
 
 ;; Do-While Function
+;; Do-While-Loop control structure.
+;; loop-state -> condition-body -> loop-body -> loop-state
+;; loop-body := break-continuation -> continue-continuation -> loop-state -> loop-state
+;; condition-body ::= loop-state -> bool
+($do-while (λ loop-state condition-body loop-body 
+	(loop loop-state
+		(λ break continue state 
+			($next-state (loop-body break continue state))
+			(? (condition-body state) 
+				next-state 
+				(break state) ) ) ) ))
 
 ;; Try-Catch Function
 
