@@ -22,7 +22,7 @@ let CustumClosureTest () =
 
 [<Test>]
 let RuntimeClosureTest () =
-    run "((λ x (λ y (tuple x y))) 1) 2"
+    run "(((λ x (head (tuple (λ y (λ z ((tuple x y z))))))) 1) 2) 3"
 
 [<Test>]
 let BindClosureTest () =

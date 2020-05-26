@@ -14,7 +14,7 @@ let evalJispString =
     OurParserC.Input.create
     >> Jisp.Parser.Expression.expression
     >> Result.mapError fst
-    >> Result.bind (fst >> eval { Global = Map.empty; Local = Map.empty })
+    >> Result.bind (fst >> eval { Global = Map.empty; Local = Map.empty; Level = 0UL })
     >> function
     | Ok v -> v
     | Error e -> raise e
@@ -219,11 +219,12 @@ let jispConcat : RuntimeFunc = fun context a ->
             >> Ok)
     with e -> Error e
 
-exception CallCCException of JispValue
+exception CallCCException of JispValue*Level:uint64
 let jispCallCC : RuntimeFunc = fun context ->
     evalParams context
     >> Result.bind (function
-    | Lambda f::[] -> 
+    | Lambda f::[] ->
+        let level = context.Level
         Apply {
             Function = Value (Lambda f)
             Arguments = 
@@ -231,12 +232,13 @@ let jispCallCC : RuntimeFunc = fun context ->
                     Value (rtFunc (fun context -> 
                         evalParams context
                         >> Result.bind (function
-                        | a::[] -> CallCCException a |> Error
+                        | a::[] -> CallCCException (a,level) |> Error
                         | _ -> InvalidArguments "For continuation, only pass one argument." |> Error))) ]
         }
         |> eval context
         |> function
-        | Ok result | Error (CallCCException result) -> Ok result
+        | Error (CallCCException (result,level2)) when level2 = level -> Ok result
+        | Ok result -> Ok result
         | Error e -> Error e
     | _ -> Error (InvalidArguments "For call-cc function, only pass 1 function as argument."))
 
@@ -262,6 +264,7 @@ let jispReadKey : RuntimeFunc = fun _ _ ->
     |> Ok
                 
 let defaultContext : Context = {
+    Level = 0UL
     Local = Map.empty
     Global = 
     [

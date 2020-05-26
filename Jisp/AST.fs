@@ -30,4 +30,5 @@ type JispFunc =
 type Context = {
     Global : Map<string,JispValue>
     Local : Map<string,JispValue>
+    Level : uint64
 }

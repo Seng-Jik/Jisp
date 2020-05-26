@@ -52,13 +52,16 @@
 ;($call-cc (λ f (...)))
 
 ;; Loop Function
-($loop (λ loop-body loop-state
+;; Loop control structure.
+;; loop-state -> loop-body -> loop-state
+;; loop-body := break-continuation -> continue-continuation -> loop-state -> loop-state
+($loop (λ loop-state loop-body
 	(call-cc (λ break 
-		(Y (λ self state
+		((Y (λ self state
 			($next-state (call-cc (λ continue
-				(loop-body break continue state))))
+				(loop-body break continue state) )))
 			self next-state)) 
-		loop-state )) ))
+		loop-state) )) ))
 
 ;; While Function
 

@@ -47,7 +47,7 @@ let eval (context:Context) (ast:JispExpr) : Result<JispValue,exn> =
             | _ -> Error CanNotCallTheValue)
         |> Result.bind (fun f -> 
             match f with
-            | RuntimeFunc func -> func context param
+            | RuntimeFunc func -> func { context with Level = context.Level + 1UL } param
             | CustumFunc func -> 
                 evalParams context param
                 |> Result.bind (fun arguments -> 
@@ -66,7 +66,10 @@ let eval (context:Context) (ast:JispExpr) : Result<JispValue,exn> =
                             if (List.length f.Parameters) > 0 then
                                 f |> CustumFunc |> Lambda |> Ok
                             else
-                                eval { context with Local = f.FunctionContext } f.Expression))
+                                eval { 
+                                    context with 
+                                        Local = f.FunctionContext
+                                        Level = context.Level + 1UL } f.Expression))
        
        
 let rec printResult = function
