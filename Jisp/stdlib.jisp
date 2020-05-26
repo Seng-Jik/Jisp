@@ -403,6 +403,15 @@
 				(break state) ) ) ) ))
 
 ;; Try-Catch Function
+;; Try-Catch control structure.
+;; try-body -> catch-body -> result
+;; try-body := throw-function -> result
+;; catch-body := exception-message -> result
+;; throw-function := exception-message -> no-return
+;; exception-message := string
+($try (λ try-body catch-body 
+	(call-cc (λ break
+		(try-body (λ exception (break (catch-body exception)))) )) ))
 
 
 ;;;;;;;; IO
@@ -412,6 +421,12 @@
 ;; Defined by Runtime.
 ;; any -> unit
 ;($print (λ any (...)))
+
+;; Print Line Function
+;; Print value in new line.
+;; Defined by Runtime.
+;; any -> unit
+;($print-ln (λ any (...)))
 
 ;; Print String Function
 ;; Print string.

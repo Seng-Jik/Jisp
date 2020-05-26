@@ -37,6 +37,16 @@
 		(($_ (? (> element 5) (break ()) ()))
 			($_ (? (% element 2) () (continue ()) ))
 			print element) ) ))
+			
+;; try
+($_ (print-str-ln ""))
+($safe-div (λ x y
+	(try (λ throw
+			(? (= y 0) (throw "Y can not be 0.") (/ x y)) )
+		(λ exn 
+			(($_ (print-str-ln exn)) 0) ) ) ))
+($_ (print-ln (safe-div 4 2)))
+($_ (safe-div 4 0))
 
 
 ;; Non local exit

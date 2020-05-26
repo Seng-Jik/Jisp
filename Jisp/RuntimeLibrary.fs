@@ -251,6 +251,15 @@ let jispPrint : RuntimeFunc = fun context ->
         Ok (Tuple [])
     | _ -> Error (InvalidArguments "For print function, only pass 1 argument."))
 
+let jispPrintLn : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.bind (function
+    | x :: [] -> 
+        printResult x
+        printfn ""
+        Ok (Tuple [])
+    | _ -> Error (InvalidArguments "For print function, only pass 1 argument."))
+
 let jispReadline : RuntimeFunc = fun _ _ ->
     System.Console.ReadLine().ToCharArray()
     |> Array.toList
@@ -287,6 +296,7 @@ let defaultContext : Context = {
         "read-line", rtFunc jispReadline
         "read-file", rtFunc jispReadFile
         "print", rtFunc jispPrint
+        "print-ln", rtFunc jispPrintLn
         "print-str", rtFunc printStr
         "print-str-ln", rtFunc printStrLn
 
