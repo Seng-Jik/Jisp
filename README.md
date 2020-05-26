@@ -33,6 +33,23 @@ print-str-ln "Hello, world!"
 ($_ (do-while 10 (λ s (false)) (λ break continue s 
 	(($_ (print s))
 		(- s 1) ))))
+		
+;; for-each
+($_ (print-str-ln ""))
+($_ (for-each (range 1 10)
+	(λ break continue element
+		(($_ (? (> element 5) (break ()) ()))
+			($_ (? (% element 2) () (continue ()) ))
+			print element) ) ))
+			
+;; for
+($_ (print-str-ln ""))
+($_ (for 1 10
+	(λ break continue element
+		(($_ (? (> element 5) (break ()) ()))
+			($_ (? (% element 2) () (continue ()) ))
+			print element) ) ))
+
 
 ;; Non local exit
 ($_ (print-str-ln ""))

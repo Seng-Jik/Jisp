@@ -370,9 +370,24 @@
 				(loop-body break continue state) 
 				(break state) ) ) ) ))
 
-;; For Function
+;; For-Each Function
+;; For-Each-Loop control structure.
+;; tuple -> loop-body -> unit
+;; loop-body := break-continuation -> continue-continuation -> element -> unit
+($for-each (λ tuple loop-body
+	(while tuple (λ t (! (is-empty t)))
+		(λ break continue t
+			(($break (λ x (break ())))
+				($continue (λ x (continue (tail t))))
+				($_ (loop-body break continue (head t)))
+				tail t )) ) ))
 
 ;; For-Each Function
+;; For-Each-Loop control structure.
+;; begin-number -> end-number -> loop-body -> unit
+;; loop-body := break-continuation -> continue-continuation -> number -> unit
+($for (λ begin end loop-body
+	(for-each (range begin end) loop-body) ))
 
 ;; Do-While Function
 ;; Do-While-Loop control structure.
