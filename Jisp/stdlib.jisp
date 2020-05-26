@@ -32,67 +32,11 @@
 ;; string -> result
 ;($eval (λ src (...)))
 
-
-;;;;;;;; Controls
-
-;; Failwith Function
-;; Raise an exception.
-;; Defined by Runtime.
-;; string -> no-return
-;($failwith (λ message (...)))
-
 ;; Y Combinator
 ;; Defined by Runtime.
 ;($Y (λ f 
 ;	($t (λ x (f (x x)))) 
 ;		t t))
-
-;; Call Current Continuation Function
-;; Defined by Runtime.
-;($call-cc (λ f (...)))
-
-;; Loop Function
-;; Loop control structure.
-;; loop-state -> loop-body -> loop-state
-;; loop-body := break-continuation -> continue-continuation -> loop-state -> loop-state
-($loop (λ loop-state loop-body
-	(call-cc (λ break 
-		((Y (λ self state
-			($next-state (call-cc (λ continue
-				(loop-body break continue state) )))
-			self next-state)) 
-		loop-state) )) ))
-
-;; While Function
-;; While-Loop control structure.
-;; loop-state -> condition-body -> loop-body -> loop-state
-;; loop-body := break-continuation -> continue-continuation -> loop-state -> loop-state
-;; condition-body ::= loop-state -> bool
-($while (λ loop-state condition-body loop-body 
-	(loop loop-state
-		(λ break continue state 
-			(? (condition-body state) 
-				(loop-body break continue state) 
-				(break state) ) ) ) ))
-
-;; For Function
-
-;; For-Each Function
-
-;; Do-While Function
-;; Do-While-Loop control structure.
-;; loop-state -> condition-body -> loop-body -> loop-state
-;; loop-body := break-continuation -> continue-continuation -> loop-state -> loop-state
-;; condition-body ::= loop-state -> bool
-($do-while (λ loop-state condition-body loop-body 
-	(loop loop-state
-		(λ break continue state 
-			($next-state (loop-body break continue state))
-			(? (condition-body state) 
-				next-state 
-				(break state) ) ) ) ))
-
-;; Try-Catch Function
 
 
 ;;;;;;;; Booleans
@@ -122,7 +66,6 @@
 ;; Can not be curried.
 ;($? (λ condition a b
 ;	((boolean-function condition) a b)))
-
 
 
 ;;;;;;;; Boolean Operators
@@ -389,6 +332,63 @@
 		(($next-state (first current-state)) 
 			($element (second current-state)) 
 			(cons element (self f next-state)) )))))
+
+
+;;;;;;;; Controls
+
+;; Failwith Function
+;; Raise an exception.
+;; Defined by Runtime.
+;; string -> no-return
+;($failwith (λ message (...)))
+
+;; Call Current Continuation Function
+;; Defined by Runtime.
+;($call-cc (λ f (...)))
+
+;; Loop Function
+;; Loop control structure.
+;; loop-state -> loop-body -> loop-state
+;; loop-body := break-continuation -> continue-continuation -> loop-state -> loop-state
+($loop (λ loop-state loop-body
+	(call-cc (λ break 
+		((Y (λ self state
+			($next-state (call-cc (λ continue
+				(loop-body break continue state) )))
+			self next-state)) 
+		loop-state) )) ))
+
+;; While Function
+;; While-Loop control structure.
+;; loop-state -> condition-body -> loop-body -> loop-state
+;; loop-body := break-continuation -> continue-continuation -> loop-state -> loop-state
+;; condition-body ::= loop-state -> bool
+($while (λ loop-state condition-body loop-body 
+	(loop loop-state
+		(λ break continue state 
+			(? (condition-body state) 
+				(loop-body break continue state) 
+				(break state) ) ) ) ))
+
+;; For Function
+
+;; For-Each Function
+
+;; Do-While Function
+;; Do-While-Loop control structure.
+;; loop-state -> condition-body -> loop-body -> loop-state
+;; loop-body := break-continuation -> continue-continuation -> loop-state -> loop-state
+;; condition-body ::= loop-state -> bool
+($do-while (λ loop-state condition-body loop-body 
+	(loop loop-state
+		(λ break continue state 
+			($next-state (loop-body break continue state))
+			(? (condition-body state) 
+				next-state 
+				(break state) ) ) ) ))
+
+;; Try-Catch Function
+
 
 ;;;;;;;; IO
 
