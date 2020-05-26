@@ -85,18 +85,6 @@ let isEmpty : RuntimeFunc = fun context ->
         | _ -> Error (InvalidArguments "For is-empty function, the argument should be tuple."))
     | _ -> Error (InvalidArguments "For is-empty function, only pass 1 argument.")
 
-let cons : RuntimeFunc = fun context ->
-    function
-    | expr::tuple::[] ->
-        eval context expr
-        |> Result.bind (fun v ->
-            eval context tuple
-            |> Result.bind (fun ls -> 
-                match ls with
-                | Tuple x -> Ok (Tuple (v::x))
-                | _ -> Error (InvalidArguments "For cons function, the second argument should be tuple.")))
-    | _ -> Error (InvalidArguments "For cons function, only pass 2 arguments.")
-
 let head : RuntimeFunc = fun context ->
     function
     | tuple::[] ->
@@ -235,7 +223,6 @@ let defaultContext : Context = {
         "eval", rtFunc jispEval
         "failwith", rtFunc jispFailwith
         "tuple", rtFunc jispTuple
-        "cons", rtFunc cons
         "head", rtFunc head
         "tail", rtFunc tail
         "concat", rtFunc jispConcat

@@ -167,18 +167,24 @@
 ;; Defined by Runtime
 ;($is-empty (λ t (...))
 
-;; Cons Function
-;; Add a value to the most left of tuple.
-;; Defined by Runtime
-;; value -> tuple -> tuple
-($cons (λ value tuple
-	(cons value tuple)))
+;; Concat Function
+;; Concat tuples.
+;; Defined by Runtime.
+;; tuple -> ... -> tuple
+;($concat (λ ... (...)))
 
 ;; Tuple Function
 ;; Create a tuple from given arguments.
 ;; Defined by Runtime
 ;; a -> b -> c -> ... -> tuple
 ;($tuple (λ ... (...)))
+
+;; Cons Function
+;; Add a value to the most left of tuple.
+;; Defined by Runtime
+;; value -> tuple -> tuple
+($cons (λ value t
+	(concat (tuple value) t)))
 
 ;; Head Function
 ;; Return the most left element of tuple.
@@ -212,12 +218,6 @@
 ;; Get the third element from tuple.
 ;; tuple -> element
 ($third (nth 2))
-
-;; Concat Function
-;; Concat tuples.
-;; Defined by Runtime.
-;; tuple -> ... -> tuple
-;($concat (λ ... (...)))
 
 ;; Length Function
 ;; Get the length of the tuple.
