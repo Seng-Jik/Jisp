@@ -8,7 +8,7 @@ Jisp Programming Language
 print-str-ln "Hello, world!"
 ```
 
-[Fibonacii.jisp](Examples/Fibonacii.jisp)
+[Fibonacci.jisp](Examples/Fibonacci.jisp)
 ```
 ($fibo (Y (λ self n 
     (? (| (= n 0) (= n 1)) 
