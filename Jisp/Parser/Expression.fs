@@ -67,9 +67,9 @@ let bindExpression = fun input ->
 
 let lambdaExpression = fun input ->
     input |> (
-        openBracket <+@> lambda <+@>
+        lambda <+@>
         (oneOrMore (whitespace1 <+@> identifier)) <@+> whitespace1 <+>
-        expression <@+> closeBracket)
+        expression)
     |> Parsed.map (fun (parameters,funcExpr) -> 
         {
             Parameters = parameters
@@ -83,6 +83,7 @@ let lambdaExpression = fun input ->
 let expression =
     atomicExpression
     <|> lambdaExpression
+    <|> (openBracket <+@> whitespace0 <+@> lambdaExpression <@+> whitespace0 <@+> closeBracket)
     <|> bindExpression
     <|> (openBracket <+@> whitespace0 <+@> bareExpression <@+> whitespace0 <@+> closeBracket)
 

@@ -17,6 +17,7 @@
     <Compile Include="PreprocessorTest.fs" />
     <Compile Include="BasicTest.fs" />
     <Compile Include="ExpressionTest.fs" />
+    <Compile Include="ClosureTest.fs" />
     <Compile Include="StdlibTest.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

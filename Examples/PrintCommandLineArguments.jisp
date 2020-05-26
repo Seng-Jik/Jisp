@@ -1,1 +1,1 @@
-print-str-ln (head argv)
+ignore (map print-str-ln argv)

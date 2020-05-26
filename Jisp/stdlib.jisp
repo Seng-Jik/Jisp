@@ -206,6 +206,28 @@
 		0
 		(+ 1 (self (tail t)))))))
 
+;; Map Function
+;; Map a tuple.
+;; (a -> b) -> a tuple -> b tuple
+($map (Y (λ self f t
+	(? (is-empty t)
+		()
+		(cons (f (head t)) (self f (tail t))) ))))
+
+;; Collect Function
+;; Collect a tuple.
+;; (a -> b tuple) -> a tuple -> b tuple
+($collect (λ f t
+	(invoke concat (map f t))))
+
+;; Filter Function
+;; Filter a tuple.
+;; (a -> bool) -> a tuple -> b tuple
+($filter (Y (λ self f t
+	(? (is-empty t)
+		()
+		(($r (self f (tail t))) 
+			(? (f (head t)) (cons (head t) r) r) )))))
 
 ;;;;;;;; IO
 

@@ -94,11 +94,9 @@ let run context =
     >> function
     | Error (Exit result) ->
         printResult result
-        printfn ""
         Error (Exit result)
     | Ok result -> 
         printResult result
-        printfn ""
         Ok (result)
     | Error e -> 
         printfn "Error:%A" e

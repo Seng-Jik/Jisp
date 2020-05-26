@@ -143,6 +143,9 @@ let Tuple () =
     run "print-str-ln (tuple 'H' 'e' 'l' 'l' 'o' ' ' 'T' 'u' 'p' 'l' 'e')"
     run """print-str-ln (concat "Hello" "World" "!")"""
     test 2M "len (tuple 1 2)"
+    test 2M "head (map (λ x (+ 1 x)) (tuple 1 2 3))"
+    test 2M "head (collect (λ x (tuple (+ 1 x))) (tuple 1 2 3))"
+    run "filter (λ x (> x 10)) (tuple 1 3 5 7 9 11 13)"
 
 [<Test>]
 let IO () =
