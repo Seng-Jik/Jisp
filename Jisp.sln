@@ -9,12 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{CFC4E262-0EC
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "OurParserC", "OurParserC\OurParserC\OurParserC.fsproj", "{0AE45DC4-9460-4A4D-98B6-F2648C39BB98}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Jisp.Test", "Jisp.Test\Jisp.Test.fsproj", "{A5B35C6F-FFE6-4AB1-9ADD-95BDB157CC85}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Jisp.Test", "Jisp.Test\Jisp.Test.fsproj", "{A5B35C6F-FFE6-4AB1-9ADD-95BDB157CC85}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Jisp.Interpreter", "Jisp.Interpreter\Jisp.Interpreter.fsproj", "{4A551577-3239-4ABC-8FA6-F3E22258A0DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{E62935C8-9222-4EDF-9253-A78C891D17F0}"
 	ProjectSection(SolutionItems) = preProject
+		Examples\Call-CC.jisp = Examples\Call-CC.jisp
 		Examples\Fibonacci.jisp = Examples\Fibonacci.jisp
 		Examples\HelloWorld.jisp = Examples\HelloWorld.jisp
 		Examples\PrintCommandLineArguments.jisp = Examples\PrintCommandLineArguments.jisp

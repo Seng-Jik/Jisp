@@ -8,6 +8,11 @@ Jisp Programming Language
 print-str-ln "Hello, world!"
 ```
 
+[Call-CC.jisp](Examples/Call-CC.jisp)
+```
++ 1 (call-cc (λ cc (cc 1)))
+```
+
 [Fibonacci.jisp](Examples/Fibonacci.jisp)
 ```
 ($fibo (Y (λ self n 
