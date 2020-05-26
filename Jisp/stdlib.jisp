@@ -266,6 +266,26 @@
 ($generate (λ count generator (
 	map generator (range 0 (- count 1)))))
 
+;; Fold Function
+;; Fold a tuple to a state.
+;; (state -> element -> state) -> state -> tuple -> state
+($fold (Y (λ self f state tuple 
+	(? (is-empty tuple) 
+		state
+		(self f (f state (head tuple)) (tail tuple)) ))))
+
+;; Reduce Function
+;; Reduce a tuple to a value.
+;; (element -> element -> element) -> tuple -> element
+($reduce (λ f tuple 
+	(fold f (head tuple) (tail tuple))))
+
+;; Reverse Function
+;; Revers a tuple.
+;; tuple -> tuple
+($reverse (λ t (
+	fold (λ u e (cons e u)) () t)))
+
 ;;;;;;;; IO
 
 ;; Print String Line Function
