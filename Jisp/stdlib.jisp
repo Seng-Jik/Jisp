@@ -44,6 +44,10 @@
 ;	($t (λ x (f (x x)))) 
 ;	t t))
 
+;; Call Current Continuation Function
+;; Defined by Runtime.
+;($call-cc (λ f (...)))
+
 ;; Exit Function
 ;; Stop evaluation and return a result.
 ;; Defined by Runtime.

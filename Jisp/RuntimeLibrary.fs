@@ -225,6 +225,27 @@ let jispConcat : RuntimeFunc = fun context a ->
             >> Ok)
     with e -> Error e
 
+exception CallCCException of JispValue
+let jispCallCC : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.bind (function
+    | Lambda f::[] -> 
+        Apply {
+            Function = Value (Lambda f)
+            Arguments = 
+                [
+                    Value (rtFunc (fun context -> 
+                        evalParams context
+                        >> Result.bind (function
+                        | a::[] -> CallCCException a |> Error
+                        | _ -> InvalidArguments "For continuation, only pass one argument." |> Error))) ]
+        }
+        |> eval context
+        |> function
+        | Ok result | Error (CallCCException result) -> Ok result
+        | Error e -> Error e
+    | _ -> Error (InvalidArguments "For call-cc function, only pass 1 function as argument."))
+
                 
 let defaultContext : Context = {
     Local = Map.empty
@@ -236,6 +257,7 @@ let defaultContext : Context = {
         "is-empty", rtFunc isEmpty
         "invoke",rtFunc jispInvoke
         "Y", rtFunc jispY
+        "call-cc", rtFunc jispCallCC
         "exit", rtFunc jispExit
         "eval", rtFunc jispEval
         "failwith", rtFunc jispFailwith
@@ -257,6 +279,3 @@ let defaultContext : Context = {
         "<", comparisonOperator (<) ]
     |> bindValues Map.empty
 }
-    (* 需要完成后将一些内置函数移动到标准库中
-    * call-cc（可以用异常来实现）
-    * try-catch *)

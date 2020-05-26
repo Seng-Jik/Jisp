@@ -37,6 +37,7 @@ let Basics () =
     test 1M "(invoke (> 2) (cons 1 ()))"
     test 0M "(invoke (< 2)) (cons 1 ())"
     test 3M """(eval "+ 1 2")"""
+    test 4M """(+ 1 2 (call-cc (λ cc (cc 1))))"""
 
     let rec fibo = function
     | 1 | 2 -> 1M
