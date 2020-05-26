@@ -4,7 +4,7 @@ open AST
 
 exception IdenifierNotFound of string
 exception CanNotCallTheValue
-exception InvalidArguments
+exception InvalidArguments of string
 exception Exit of JispValue
 
 let bindValues (binds:Map<string,JispValue>) nameValueSeq = 
@@ -55,7 +55,7 @@ let eval (context:Context) (ast:JispExpr) : Result<JispValue,exn> =
                     let argCount = List.length arguments
                     let paramCount = List.length func.Parameters
                     if argCount > paramCount then
-                        Error InvalidArguments
+                        Error (InvalidArguments "Too much arguments passed.")
                     else
                         { func with
                             Parameters = List.skip argCount func.Parameters

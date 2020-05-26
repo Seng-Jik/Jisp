@@ -192,6 +192,27 @@
 ;; tuple -> tuple
 ;($tail (λ tuple (...)))
 
+;; Nth Function
+;; Get the element from tuple by index.
+;; index -> tuple -> element
+($nth (Y (λ self i t
+	(? (<= i 0) (head t) (self (- i 1) (tail t))))))
+
+;; First Function
+;; Get the first element from tuple.
+;; tuple -> element
+($first (nth 0))
+
+;; Second Function
+;; Get the second element from tuple.
+;; tuple -> element
+($second (nth 1))
+
+;; Third Function
+;; Get the third element from tuple.
+;; tuple -> element
+($third (nth 2))
+
 ;; Concat Function
 ;; Concat tuples.
 ;; Defined by Runtime.

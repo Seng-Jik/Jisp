@@ -145,7 +145,11 @@ let Tuple () =
     test 2M "len (tuple 1 2)"
     test 2M "head (map (λ x (+ 1 x)) (tuple 1 2 3))"
     test 2M "head (collect (λ x (tuple (+ 1 x))) (tuple 1 2 3))"
-    run "filter (λ x (> x 10)) (tuple 1 3 5 7 9 11 13)"
+    test 11M "head (filter (λ x (> x 10)) (tuple 1 3 5 7 9 11 13))"
+    test 1M "nth 5 (tuple 7 1 2 4 0 1 0)"
+    test 7M "first (tuple 7 1 2 4 0 1 0)"
+    test 1M "second (tuple 7 1 2 4 0 1 0)"
+    test 2M "third (tuple 7 1 2 4 0 1 0)"
 
 [<Test>]
 let IO () =

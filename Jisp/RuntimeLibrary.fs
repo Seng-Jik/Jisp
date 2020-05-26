@@ -6,7 +6,7 @@ open Evalution
 
 let getNumber : JispValue -> Result<JispNumber,exn> = function
 | Number x -> Ok x
-| _ -> Error InvalidArguments
+| _ -> Error (InvalidArguments "This argument shoud be number.")
     
 let rtFunc = RuntimeFunc >> Lambda
 
@@ -37,7 +37,7 @@ let comparisonOperator func =
         evalParams context
         >> Result.bind (function
         | (Number a)::(Number b)::[] -> (if (func a b) then 1M else 0M) |> Number |> Ok
-        | _ -> Error InvalidArguments)
+        | _ -> Error (InvalidArguments "For comparision operator, only pass 2 arguments."))
     rtFunc booleanFunction
         
 let ifExpression : RuntimeFunc = fun context ->
@@ -46,14 +46,14 @@ let ifExpression : RuntimeFunc = fun context ->
         match eval context condition with
         | Ok (Number x) when x <> 0M -> eval context yes
         | Ok (Number x) when x = 0M -> eval context no
-        | _ -> Error InvalidArguments
-    | _ -> Error InvalidArguments
+        | _ -> Error (InvalidArguments "For ? function, the first argument must be bool.")
+    | _ -> Error (InvalidArguments "For ? function, only pass 3 arguments.")
 
 let getStr x = 
     x
     |> List.map (function
     | Number a -> char a
-    | _ -> raise InvalidArguments)
+    | _ -> raise (InvalidArguments "This argument should be string."))
     |> List.toArray
     |> fun x -> new System.String (x)
 
@@ -70,9 +70,9 @@ let printStrLn : RuntimeFunc = fun context ->
                 | Number x ->
                     printfn "%s" (string (char x))
                     Ok (Tuple [])
-                | _ -> Error InvalidArguments)
+                | _ -> Error (InvalidArguments "For print-str-ln function, the argument should be number or tuple."))
         with e -> Error e
-    | _ -> Error InvalidArguments
+    | _ -> Error (InvalidArguments "For print-str-ln function, only pass 1 argument.")
 
 
 let isEmpty : RuntimeFunc = fun context ->
@@ -82,8 +82,8 @@ let isEmpty : RuntimeFunc = fun context ->
         |> Result.bind (function
         | Tuple [] -> Ok (Number 1M)
         | Tuple _ -> Ok (Number 0M)
-        | _ -> Error InvalidArguments)
-    | _ -> Error InvalidArguments
+        | _ -> Error (InvalidArguments "For is-empty function, the argument should be tuple."))
+    | _ -> Error (InvalidArguments "For is-empty function, only pass 1 argument.")
 
 let cons : RuntimeFunc = fun context ->
     function
@@ -94,8 +94,8 @@ let cons : RuntimeFunc = fun context ->
             |> Result.bind (fun ls -> 
                 match ls with
                 | Tuple x -> Ok (Tuple (v::x))
-                | _ -> Error InvalidArguments))
-    | _ -> Error InvalidArguments
+                | _ -> Error (InvalidArguments "For cons function, the second argument should be tuple.")))
+    | _ -> Error (InvalidArguments "For cons function, only pass 2 arguments.")
 
 let head : RuntimeFunc = fun context ->
     function
@@ -103,8 +103,8 @@ let head : RuntimeFunc = fun context ->
         eval context tuple
         |> Result.bind (function
         | Tuple (x::_) -> Ok x
-        | _ -> Error InvalidArguments)
-    | _ -> Error InvalidArguments
+        | _ -> Error (InvalidArguments "For head function, the argument should be tuple."))
+    | _ -> Error (InvalidArguments "For head function, only pass 1 argument.")
 
 let tail : RuntimeFunc = fun context ->
     function
@@ -113,8 +113,8 @@ let tail : RuntimeFunc = fun context ->
         |> Result.bind (function
         | Tuple (_::x) -> Ok (Tuple x)
         | Tuple [] -> Ok (Tuple [])
-        | _ -> Error InvalidArguments)
-    | _ -> Error InvalidArguments
+        | _ -> Error (InvalidArguments "For tail function, the argument should be tuple."))
+    | _ -> Error (InvalidArguments "For tail function, only pass 1 argument.")
 
 exception Failwith of string
 let jispFailwith : RuntimeFunc = fun context ->
@@ -125,9 +125,9 @@ let jispFailwith : RuntimeFunc = fun context ->
             |> Result.bind(function
             | Tuple x -> 
                 Error (Failwith (getStr x))
-            | _ -> Error InvalidArguments)
+            | _ -> Error (InvalidArguments "For exit function, the argument should be string."))
         with e -> Error e
-    | _ -> Error InvalidArguments
+    | _ -> Error (InvalidArguments "For exit function, only pass 1 argument.")
 
 exception CanNotOpenFile of string
 let jispReadFile : RuntimeFunc = fun context ->
@@ -145,9 +145,9 @@ let jispReadFile : RuntimeFunc = fun context ->
                     |> Tuple
                     |> Ok
                 with _ -> Error (CanNotOpenFile fileName)
-            | _ -> Error InvalidArguments)
+            | _ -> Error (InvalidArguments "For read-file function, the argument should be string."))
         with e -> Error e
-    | _ -> Error InvalidArguments
+    | _ -> Error (InvalidArguments "For read-file function, only pass 1 argument.")
 
 let jispInvoke : RuntimeFunc = fun context ->
     evalParams context
@@ -162,8 +162,8 @@ let jispInvoke : RuntimeFunc = fun context ->
             |> eval (match func with
                     | RuntimeFunc -> context
                     | CustumFunc x -> {context with Local = x.FunctionContext})
-        | _ -> Error InvalidArguments
-    | _ -> Error InvalidArguments)
+        | _ -> Error (InvalidArguments "For invoke function, the arguments should be function and a tuple.")
+    | _ -> Error (InvalidArguments "For read-file function, only pass 2 arguments."))
 
 let jispEval : RuntimeFunc = fun context ->
     evalParams context
@@ -179,9 +179,9 @@ let jispEval : RuntimeFunc = fun context ->
                 | Error (e,_) -> Error e
                 | Ok (ast,_) ->
                     eval context ast
-            | _ -> Error InvalidArguments
+            | _ -> Error (InvalidArguments "For invoke function, the argument should be string.")
         with e -> Error e
-    | _ -> Error InvalidArguments)
+    | _ -> Error (InvalidArguments "For eval function, only pass 1 argument."))
 
 let jispTuple : RuntimeFunc = fun context ->
     evalParams context
@@ -200,13 +200,13 @@ let jispY : RuntimeFunc = fun context ->
                 }
                 |> eval context)
         Ok (rtFunc callSelf)
-    | _ -> Error InvalidArguments)
+    | _ -> Error (InvalidArguments "For Y combinator, only pass a function."))
 
 let jispExit : RuntimeFunc = fun context ->
     evalParams context
     >> Result.bind (function
     | x::[] -> Error (Exit x)
-    | _ -> Error InvalidArguments)
+    | _ -> Error (InvalidArguments "For exit function, only pass 1 argument."))
 
 let jispConcat : RuntimeFunc = fun context a ->
     try
@@ -214,7 +214,7 @@ let jispConcat : RuntimeFunc = fun context a ->
         |> Result.bind (
             List.map (function
             | (Tuple x) -> x
-            | _ -> raise InvalidArguments)
+            | _ -> raise (InvalidArguments "For concat function, only pass tuples as arguments."))
             >> List.concat
             >> Tuple
             >> Ok)
