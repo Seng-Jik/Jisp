@@ -46,7 +46,8 @@ let ifExpression : RuntimeFunc = fun context ->
         match eval context condition with
         | Ok (Number x) when x <> 0M -> eval context yes
         | Ok (Number x) when x = 0M -> eval context no
-        | _ -> Error (InvalidArguments "For ? function, the first argument must be bool.")
+        | Ok _ -> Error (InvalidArguments "For ? function, the first argument must be bool.")
+        | Error e -> Error e
     | _ -> Error (InvalidArguments "For ? function, only pass 3 arguments.")
 
 let getStr x = 

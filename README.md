@@ -14,16 +14,20 @@ print-str-ln "Hello, world!"
 ($_ (print (+ 1 (call-cc (λ cc (cc 1))))))
 
 ;; Count down by loop function
-;; Basiclly Call-CC
-($_ (print (+ 1 (call-cc (λ cc (cc 1))))))
-
-;; Count down by loop function
 ($_ (print-str-ln ""))
 ($_ (loop 10 (λ break continue state 
 	(($_ (? (% state 2) () (continue (- state 1))))
 		($_ (print state))
 		($next-state (- state 1))
 		(? (> next-state 0) next-state (break 0)) ))))
+		
+;; Count down by while function
+($_ (print-str-ln ""))
+($_ (while 10 (λ s (> s 0)) (λ break continue s 
+	(($_ (? (% s 2) () (continue (- s 1))))
+		($_ (print s))
+		(- s 1) ))))
+
 
 ;; Non local exit
 ($_ (print-str-ln ""))
