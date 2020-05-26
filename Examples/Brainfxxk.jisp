@@ -1,0 +1,50 @@
+;; Brainfxxk Interpreter on Jisp
+;; http://www.muppetlabs.com/~breadbox/bf/
+;; By Seng Jik
+
+
+;; Source Code
+($hello-world 
+	"++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>++.>+.+++++++..+++.<<++.>+++++++++++++++.>.+++.------.--------.<<+.<.")
+
+($source-code 
+	(? (is-empty argv)
+		hello-world
+		(read-file (head argv)) ))
+		
+		
+		
+;; [] Bracket Pairs Table
+;; Structure: (tuple (tuple left-bracket-pc right-bracket-pc) ...)
+
+($bracket-pairs-position-table (
+	($all-instructions-position-table
+		((Y (λ self index src 
+			(? (is-empty src) 
+				() 
+				(cons
+					(tuple (head src) index)
+					(self (+ 1 index) (tail src)) ) ) )) 0 source-code)) 
+					
+	($bracket-position-table 
+		(filter (λ x (| (= (head x) '[') (= (head x) ']'))) all-instructions-position-table))
+		
+	; TODO: using stack and fold to find bracket-pairs
+			
+	bracket-position-table ))
+		
+		
+		
+;; Interpreter Context
+;; Structure: (tuple pc pointer mem)
+
+($mem-size 7000)		;; Standard Brainfuck is 300000 Bytes!
+($default-context 
+	(tuple 0 0 (generate mem-size (λ _ (0)))))
+
+($get-pc head)
+($get-pointer second)
+($get-mem third)
+($get-current-byte (λ context (nth (get-pointer context) (get-mem context))))
+
+print bracket-pairs-position-table
