@@ -272,11 +272,14 @@ let defaultContext : Context = {
         "<", comparisonOperator (<) ]
     |> bindValues Map.empty
 }
-(* 使用call-cc实现控制流
+(* 
     * for-each
     * for
     * while
     * do
     * return 
     * try-catch
+    * read-key
+    * read-line
+    * print
     *)
