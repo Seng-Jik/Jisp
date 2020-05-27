@@ -1,0 +1,73 @@
+;; Life Game in Jisp
+;; By Seng Jik
+
+
+;; Map
+
+($map-default
+	(($map-height 21)
+		generate map-height (λ y
+		(($map-width 21)
+			map (λ x
+			(? (| (= x 10) (= y 10)) '*' ' '))
+			(range 0 (- map-width 1))))))
+			
+($map-height (len map-default))
+($map-width (len (head map-default)))
+		
+($print-map (λ m
+	($_ (print-str-ln "")) 
+	(for-each m (λ _1 _2 e 
+		(print-str-ln e) )) ))
+		
+($mapi ((Y (λ self n f t a b
+	(? (is-empty t) 
+		()
+		(cons
+			(f n (head t) a b)
+			(self (+ 1 n) f (tail t) a b) ) ) )) ))
+
+($mapi-map (λ f m
+	(($f2 (λ y line r k (r 0 (λ x e y p (p x y e)) line y k)))
+		mapi 0 f2 m mapi f) ))
+		
+		
+;; Rule
+
+($next-state (λ m
+	(mapi-map (λ x y c
+		(
+			($count-neibours (λ x y m
+			(($left-position (clamp 0 (- map-width 1) (- x 1)))
+				($right-position (clamp 0 (- map-width 1) (+ x 1)))
+				($top-position (clamp 0 (- map-height 1) (- y 1)))
+				($bottom-position (clamp 0 (- map-height 1) (+ y 1)))
+				($neibour-and-self-count (len (filter (λ x (= '*' x)) 
+					(invoke concat (map 
+						(λ l (slice left-position right-position l)) 
+						(slice top-position bottom-position m))) )))
+				? (= '*' (nth x (nth y m)))
+					(- neibour-and-self-count 1)
+					neibour-and-self-count ) ))
+
+			($B-rule (λ neibours-count current-state
+				(? (= neibours-count 3)
+					'*'
+					current-state) ))
+			
+			($S-rule (λ neibours-count current-state
+				(? (| (= neibours-count 2) (= neibours-count 3))
+					 current-state
+					 ' ' ) ))
+					 
+			($rule (λ neibours-count current-state
+				(B-rule neibours-count (S-rule neibours-count current-state)) ))
+
+			rule (count-neibours x y m) c) ) m) ))
+
+
+;; Main
+(Y (λ self m
+	(($_ (print-map m))
+		self (next-state m)) )) map-default
+

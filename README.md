@@ -86,5 +86,7 @@ generate 20 fibo
 ```
 ignore (map print-str-ln argv)
 ```
+[LifeGame.jisp](Examples/LifeGame.jisp)    
 [Brainfxxk.jisp](Examples/Brainfxxk.jisp)    
-[stdlib.jisp](Jisp/stdlib.jisp)
+[BoxMonad.jisp](Examples/BoxMonad.jisp)        
+[stdlib.jisp](Jisp/stdlib.jisp)    
