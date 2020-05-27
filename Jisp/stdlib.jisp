@@ -257,12 +257,18 @@
 
 ;; Filter Function
 ;; Filter a tuple.
-;; (a -> bool) -> a tuple -> b tuple
+;; (a -> bool) -> a tuple -> a tuple
 ($filter (Y (λ self f t
 	(? (is-empty t)
 		()
 		(($r (self f (tail t))) 
 			(? (f (head t)) (cons (head t) r) r) )))))
+
+;; Find Function
+;; Find a element from the tuple.
+;; (a -> bool) -> a tuple -> a
+($find (λ f t
+	(head (filter f t)) ))
 
 ;; Range Function
 ;; Generate a tuple by a integer range.
