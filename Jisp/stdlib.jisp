@@ -316,6 +316,12 @@
 		(self (- count 1) (tail t))
 		t))))
 
+;; Set-Nth Function
+;; Set Nth element and return a new tuple.
+;; n -> element -> tuple -> tuple
+($set-nth (λ n element t
+	(concat (take n t) (tuple element) (skip (+ n 1) t)) ))
+
 ;; Slice Function
 ;; Slice the tuple.
 ;; begin -> end -> tuple -> tuple
