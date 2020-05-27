@@ -29,16 +29,26 @@
 	($bracket-position-table 
 		(filter (λ x (| (= (head x) '[') (= (head x) ']'))) all-instructions-position-table))
 		
-	; TODO: using stack and fold to find bracket-pairs
+	($bracket-pairs-table-calc-result
+		(fold 
+			(λ state element
+				(? (= (head element) '[') 
+					(tuple (cons (second element) (first state)) (second state))
+					(($left-position (head (first state)))
+						($right-position (second element))
+						($pair (tuple left-position right-position )) 
+						tuple (tail (first state)) (cons pair (second state)) ) ) ) 
+			(tuple () ())
+			bracket-position-table ) )
 			
-	bracket-position-table ))
+	second bracket-pairs-table-calc-result ))
 		
 		
 		
 ;; Interpreter Context
 ;; Structure: (tuple pc pointer mem)
 
-($mem-size 7000)		;; Standard Brainfuck is 300000 Bytes!
+($mem-size 30000)		;; Standard Brainfuck is 300000 Bytes!
 ($default-context 
 	(tuple 0 0 (generate mem-size (λ _ (0)))))
 

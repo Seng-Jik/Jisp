@@ -283,10 +283,10 @@
 ;; Fold Function
 ;; Fold a tuple to a state.
 ;; (state -> element -> state) -> state -> tuple -> state
-($fold (Y (λ self f state tuple 
-	(? (is-empty tuple) 
+($fold (Y (λ self f state t 
+	(? (is-empty t) 
 		state
-		(self f (f state (head tuple)) (tail tuple)) ))))
+		(self f (f state (head t)) (tail t)) ))))
 
 ;; Reduce Function
 ;; Reduce a tuple to a value.

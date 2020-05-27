@@ -91,15 +91,21 @@ let rec printResult = function
         printf "(...))"
 
 
-let run context =
-    eval context
-    >> function
-    | Ok result -> 
-        printResult result
-        Ok (result)
-    | Error e -> 
-        printfn "Error:%A" e
-        Error e
+let run context expr =
+    let threadFunction () =
+        eval context expr
+        |> function
+        | Ok result -> 
+            printResult result
+        | Error e -> 
+            printfn "Error:%A" e
+
+    let stackSize = 1024 * 1024 * 256
+    let thread = System.Threading.Thread (threadFunction,stackSize)
+    thread.Start ()
+    thread.Join ()
+
+
 
         
         
