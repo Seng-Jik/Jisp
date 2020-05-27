@@ -11,12 +11,55 @@
 	(? (is-empty argv)
 		hello-world
 		(read-file (head argv)) ))
+
+($source-code-length (len source-code))		
 		
 		
-		
+;; Interpreter Context
+;; Structure: (tuple pc pointer mem)
+
+($round-number (Y (λ self round x	; round-number -> number -> number
+	(? (>= x round) 
+		(% x round)
+		(? (< x 0)
+			(self round (+ x round))
+			x ) ) )))
+
+($mem-size 30000)
+($default-context 
+	(tuple 0 0 (generate mem-size (λ _ (0)))))
+
+($get-pc head)						; context -> pc
+($set-pc (set-nth 0))				; pc -> context -> context
+($inc-pc (λ context					; context -> context
+	(set-pc (+ 1 (get-pc context)) context)))
+
+($get-pointer second)				; context -> pointer
+($set-pointer (λ pointer context	; pointer -> context -> context
+	(set-nth 1 (round-number mem-size pointer) context)))
+($inc-pointer (λ context			; context -> context
+	(set-pointer (+ 1 (get-pointer context)) context)))
+($dec-pointer (λ context			; context -> context
+	(set-pointer (- (get-pointer context) 1) context)))
+
+($get-mem third)					; context -> mem
+($get-current-byte (λ context		; context -> byte
+	(nth (get-pointer context) (get-mem context))))
+($set-current-byte (λ byte context	; byte -> context -> context
+	(set-nth 2 (set-nth (get-pointer context) (round-number 256 byte) (get-mem context)) context) ))
+($inc-current-byte (λ context		; context -> context
+	(set-current-byte (+ 1 (get-current-byte context)) context) ))
+($dec-current-byte (λ context		; context -> context
+	(set-current-byte (- (get-current-byte context) 1) context) ))
+
+($print-current-byte (λ context		;context -> context
+	(($_ (print-str (get-current-byte context))) context) ))
+($read-key-to-current-byte (λ context 
+	(set-current-byte (read-key ()) context) ))
+
+
 ;; [] Bracket Pairs Table
 ;; Structure: (tuple (tuple left-bracket-pc right-bracket-pc) ...)
-
 ($bracket-pairs-position-table (
 	($all-instructions-position-table
 		((Y (λ self index src 
@@ -46,19 +89,10 @@
 		(failwith "Brackets not matched!") ))
 			
 	second bracket-pairs-table-calc-result ))
-		
-		
-		
-;; Interpreter Context
-;; Structure: (tuple pc pointer mem)
 
-($mem-size 30000)
-($default-context 
-	(tuple 0 0 (generate mem-size (λ _ (0)))))
 
-($get-pc head)
-($get-pointer second)
-($get-mem third)
-($get-current-byte (λ context (nth (get-pointer context) (get-mem context))))
+;; Main
 
-print bracket-pairs-position-table
+($my-context (dec-pointer default-context))
+
+(read-key-to-current-byte my-context)
