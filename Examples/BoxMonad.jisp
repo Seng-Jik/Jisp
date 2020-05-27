@@ -1,0 +1,10 @@
+($box (λ value (tuple value)))
+($>= map)
+($>>= (λ f box
+	(f (head box)) ))
+	
+; Test
+($box1 (box 1))
+($box2 (>= (λ x (+ 1 x)) box1))
+($box3 (>>= (λ x (box ((+ 1 x)))) box2))
+print box3
