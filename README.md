@@ -1,92 +1,43 @@
-# Jisp
-Jisp Programming Language
+# Jisp 编程语言
 
-## Examples
+一个基于 λ-演算 的饥饿求值编程语言。    
 
-[HelloWorld.jisp](Examples/HelloWorld.jisp)
+## 工具链用法
+
+##### 以交互式编程方式启动
+```shell
+jisp
+```
+
+##### 解释运行一个Jisp程序
+```shell
+jisp jisp程序源代码 [命令行参数]
+```
+
+##### 编译一个Jisp程序
+```shell
+jisp -c jisp程序源代码 输出
+```
+
+## 特性
+* 使用Y-组合子实现递归
+* Call-CC以及使用Call-CC实现循环、异常控制流
+* 与F#编程语言具有良好的交互性
+* 完全“纯”的计算环境
+* 支持Eval
+* 极小语言核心，使用库来充实功能
+
+## 例子程序
+
+[HelloWorld](Examples/HelloWorld.jisp)
 ```
 print-str-ln "Hello, world!"
 ```
 
-[Call-CC.jisp](Examples/Call-CC.jisp)
-```
-;; Basiclly Call-CC
-($_ (print (+ 1 (call-cc (λ cc (cc 1))))))
-
-;; loop
-($_ (print-str-ln ""))
-($_ (loop 10 (λ break continue state 
-	(($_ (? (% state 2) () (continue (- state 1))))
-		($_ (print state))
-		($next-state (- state 1))
-		(? (> next-state 0) next-state (break 0)) ))))
-		
-;; while
-($_ (print-str-ln ""))
-($_ (while 10 (λ s (> s 0)) (λ break continue s 
-	(($_ (? (% s 2) () (continue (- s 1))))
-		($_ (print s))
-		(- s 1) ))))
-		
-;; do-while
-($_ (print-str-ln ""))
-($_ (do-while 10 (λ s (false)) (λ break continue s 
-	(($_ (print s))
-		(- s 1) ))))
-		
-;; for-each
-($_ (print-str-ln ""))
-($_ (for-each (range 1 10)
-	(λ break continue element
-		(($_ (? (> element 5) (break ()) ()))
-			($_ (? (% element 2) () (continue ()) ))
-			print element) ) ))
-			
-;; for
-($_ (print-str-ln ""))
-($_ (for 1 10
-	(λ break continue element
-		(($_ (? (> element 5) (break ()) ()))
-			($_ (? (% element 2) () (continue ()) ))
-			print element) ) ))
-			
-;; try
-($_ (print-str-ln ""))
-($safe-div (λ x y
-	(try (λ throw
-			(? (= y 0) (throw "Y can not be 0.") (/ x y)) )
-		(λ exn 
-			(($_ (print-str-ln exn)) 0) ) ) ))
-($_ (print-ln (safe-div 4 2)))
-($_ (safe-div 4 0))
-
-
-;; Non local exit
-($_ (print-str-ln ""))
-($_ (call-cc (λ exit 
-	(($_ (exit ()))
-		(failwith "No!!!!!!") ) )))
-
-()
-
-```
-
-[Fibonacci.jisp](Examples/Fibonacci.jisp)
-```
-($fibo (Y (λ self n 
-    (? (| (= n 0) (= n 1)) 
-        1
-        (+ (self (- n 1)) (self (- n 2)))))))
-
-
-generate 20 fibo
-```
-
-[PrintCommandLineArguments.jisp](Examples/PrintCommandLineArguments.jisp)
-```
-ignore (map print-str-ln argv)
-```
-[LifeGame.jisp](Examples/LifeGame.jisp)    
-[Brainfxxk.jisp](Examples/Brainfxxk.jisp)    
-[BoxMonad.jisp](Examples/BoxMonad.jisp)        
-[stdlib.jisp](Jisp/stdlib.jisp)    
+[Call-CC与控制流例子](Examples/Call-CC.jisp)    
+[打印斐波那契数列](Examples/Fibonacci.jisp)     
+[打印命令行参数](Examples/PrintCommandLineArguments.jisp)     
+[生命游戏](Examples/LifeGame.jisp)      
+[Brainf*ck语言解释器](Examples/Brainfxxk.jisp)    
+[Monad例子](Examples/BoxMonad.jisp)        
+[Jisp标准库](Jisp/stdlib.jisp)    
