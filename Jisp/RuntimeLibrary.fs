@@ -166,7 +166,7 @@ let jispInvoke : RuntimeFunc = fun context ->
                 Arguments = args |> List.map Value
             }
             |> eval (match func with
-                    | RuntimeFunc -> context
+                    | RuntimeFunc _ -> context
                     | CustumFunc x -> {context with Local = x.FunctionContext})
         | _ -> Error (InvalidArguments "For invoke function, the arguments should be function and a tuple.")
     | _ -> Error (InvalidArguments "For read-file function, only pass 2 arguments."))

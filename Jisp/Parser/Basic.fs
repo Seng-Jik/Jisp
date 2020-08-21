@@ -9,7 +9,7 @@ let whitespace0 = zeroOrMore whitespace >> Parsed.ignore
 let whitespace1 = oneOrMore whitespace >> Parsed.ignore
 
 
-let lambda = Parsers.character 'λ' >> Parsed.ignore
+let lambda = (Parsers.character 'λ' <||||> Parsers.literal "lambda") >> Parsed.ignore
 let openBracket = Parsers.character '(' >> Parsed.ignore
 let closeBracket = Parsers.character ')' >> Parsed.ignore
 let bindBracket = Parsers.literal "($" >> Parsed.ignore
