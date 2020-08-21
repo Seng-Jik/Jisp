@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{E6
 		Examples\Brainfxxk.jisp = Examples\Brainfxxk.jisp
 		Examples\Call-CC.jisp = Examples\Call-CC.jisp
 		Examples\Fibonacci.jisp = Examples\Fibonacci.jisp
+		Examples\Functional-List.jisp = Examples\Functional-List.jisp
 		Examples\HelloWorld.jisp = Examples\HelloWorld.jisp
 		Examples\PrintCommandLineArguments.jisp = Examples\PrintCommandLineArguments.jisp
 	EndProjectSection

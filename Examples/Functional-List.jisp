@@ -1,0 +1,51 @@
+
+;; Get Length
+; list -> number
+($ls-len (λ ls (ls -1)))
+
+;; Empty List
+; index -> element
+($ls-empty (λ x ((? (= (-1) x) 0 () ))))
+
+;; Cons
+; head -> list -> list
+($ls-cons (λ head ls 
+	(($cur-length (ls-len ls))
+	(λ index 
+		(? (= -1 index)
+			(+ cur-length 1)
+			(? (= index 0) head (ls (- index 1))) ) ) ) ))
+
+;; Get Head
+; list -> element
+($ls-head (λ ls (ls 0)))
+
+;; Get Tail
+; list -> list
+($ls-tail (λ ls
+	(($cur-length (ls-len ls))
+	(λ index 
+		(? (= index -1) 
+			(- cur-length 1)
+			(ls (+ index 1)) ) ) ) ))
+
+($ls (ls-cons 1 ls-empty))
+($ls (ls-cons 2 ls))
+($ls (ls-cons 3 ls))
+($ls (ls-cons 4 ls))
+($ls (ls-cons 5 ls))
+($ls (ls-cons 6 ls))
+
+($_ (print (ls-len ls)))
+($_ (print-str-ln ""))
+($_ (print (tuple (ls 0) (ls 1) (ls 2) (ls 3) (ls 4) (ls 5))))
+($_ (print-str-ln ""))
+($_ (print (ls-head ls)))
+($_ (print-str-ln ""))
+
+($ls (ls-tail ls))
+($ls (ls-tail ls))
+($_ (print (ls-len ls)))
+($_ (print-str-ln ""))
+($_ (print (tuple (ls 0) (ls 1) (ls 2) (ls 3))))
+()
