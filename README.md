@@ -34,6 +34,9 @@ jisp -c jisp程序源代码 输出
 print-str-ln "Hello, world!"
 ```
 
+[布尔运算](Examples/Boolean.jisp)
+[丘奇数](Examples/Church-Numerals.jisp)
+[列表](Examples/Functional-List.jisp)
 [Call-CC与控制流例子](Examples/Call-CC.jisp)    
 [打印斐波那契数列](Examples/Fibonacci.jisp)     
 [打印命令行参数](Examples/PrintCommandLineArguments.jisp)     
