@@ -1,0 +1,37 @@
+;; ChurchNumerals in Jisp
+;; By Seng Jik
+
+
+($zero (λ f x (x)))
+($inc (λ a f x (a f (f x))))
+($one (inc zero))
+($two (inc one))
+($three (inc two))
+($print-church (λ x (print (x (λ x (+ x 1)) 0))))
+
+
+($_ (print-church one))
+($_ (print-church two))
+($_ (print-church three))
+
+($_ (print-str-ln ""))
+
+($add (λ a b (λ f x (a f (b f x)))))
+($_ (print-church one)) ($_ (print-str "+")) ($_ (print-church one)) ($_ (print-str "=")) ($_ (print-church (add one one))) 
+($_ (print-str-ln ""))
+($_ (print-church one)) ($_ (print-str "+")) ($_ (print-church two)) ($_ (print-str "=")) ($_ (print-church (add one two)))
+($_ (print-str-ln ""))
+($_ (print-church two)) ($_ (print-str "+")) ($_ (print-church two)) ($_ (print-str "=")) ($_ (print-church (add two two))) 
+($_ (print-str-ln ""))
+($_ (print-church two)) ($_ (print-str "+")) ($_ (print-church three)) ($_ (print-str "=")) ($_ (print-church (add two three))) 
+($_ (print-str-ln ""))
+
+($mul (λ a b (λ f x (a (b f) x))))
+($_ (print-church one)) ($_ (print-str "*")) ($_ (print-church one)) ($_ (print-str "=")) ($_ (print-church (mul one one))) 
+($_ (print-str-ln ""))
+($_ (print-church one)) ($_ (print-str "*")) ($_ (print-church two)) ($_ (print-str "=")) ($_ (print-church (mul one two)))
+($_ (print-str-ln ""))
+($_ (print-church two)) ($_ (print-str "*")) ($_ (print-church two)) ($_ (print-str "=")) ($_ (print-church (mul two two))) 
+($_ (print-str-ln ""))
+($_ (print-church two)) ($_ (print-str "*")) ($_ (print-church three)) ($_ (print-str "=")) ($_ (print-church (mul two three))) 
+()
