@@ -1,0 +1,44 @@
+;; Boolean in Jisp
+;; By Seng-Jik
+
+
+($true true-function)
+($false false-function)
+($print-bool (λ a (print-str (a "true" "false"))))
+
+($_ (print-bool true))
+($_ (print-str-ln ""))
+($_ (print-bool false))
+($_ (print-str-ln ""))
+
+($not (λ a (a false true)))
+($_ (print-str "not ")) ($_ (print-bool true)) ($_ (print-str " = ")) ($_ (print-bool (not true)))
+($_ (print-str-ln ""))
+($_ (print-str "not ")) ($_ (print-bool false)) ($_ (print-str " = ")) ($_ (print-bool (not false)))
+($_ (print-str-ln ""))
+
+($test (λ f str (
+	($f-print (λ a b (
+		($_ (print-bool a))
+		($_ (print-str str))
+		($_ (print-bool b))
+		($_ (print-str " = "))
+		($_ (print-bool (f a b)))
+		($_ (print-str-ln ""))
+		() )))
+
+	($_ (f-print true true))
+	($_ (f-print true false))
+	($_ (f-print false true))
+	($_ (f-print false false))
+	() )))
+
+($and (λ a b (a b false)))
+($or (λ a b (a true b)))
+($xor (λ a b (a (not b) b)))
+	
+($_ (test and " and "))
+($_ (test or " or "))
+($_ (test xor " xor "))
+()
+
