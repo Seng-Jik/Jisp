@@ -65,9 +65,14 @@ test: test_second
 jisp-project new 项目名称
 ```
 
-#### 编译当前项目
+#### 构建当前项目
 ```shell
 jisp-project build
+```
+
+#### 编译当前项目到可执行文件
+```shell
+jisp-project compile
 ```
 
 #### 运行当前项目
