@@ -267,6 +267,38 @@ let jispReadline : RuntimeFunc = fun _ _ ->
     |> Tuple
     |> Ok
 
+let jispCreateDirectory : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.bind (function
+    | Tuple name :: [] ->
+        name
+        |> List.map (function
+        | Number n -> char n
+        | _ -> failwith "?")
+        |> List.toArray
+        |> fun x -> new System.String (x)
+        |> System.IO.Directory.CreateDirectory
+        |> fun _ -> Tuple []
+        |> Ok
+    | _ -> Error (InvalidArguments ""))
+
+let jispWriteTextFile : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.bind (function
+    | Tuple content :: Tuple name :: [] ->
+        let evalStr x =
+            x
+            |> List.map (function
+            | Number n -> char n
+            | _ -> failwith "?")
+            |> List.toArray
+            |> fun x -> new System.String (x)
+
+        System.IO.File.WriteAllText (evalStr name, evalStr content)
+        |> fun _ -> Tuple []
+        |> Ok
+    | _ -> Error (InvalidArguments ""))
+
 let jispReadKey : RuntimeFunc = fun _ _ ->
     System.Console.ReadKey (true)
     |> fun x -> x.KeyChar
@@ -294,11 +326,15 @@ let defaultContext : Context = {
 
         "read-key", rtFunc jispReadKey
         "read-line", rtFunc jispReadline
-        "read-file", rtFunc jispReadFile
         "print", rtFunc jispPrint
         "print-ln", rtFunc jispPrintLn
         "print-str", rtFunc printStr
         "print-str-ln", rtFunc printStrLn
+
+        "read-file", rtFunc jispReadFile
+        // read-text-file
+        "create-directory", rtFunc jispCreateDirectory
+        "write-text-file", rtFunc jispWriteTextFile
 
         "+", arithmeticOperator (+)
         "-", arithmeticOperator (-)
