@@ -24,7 +24,7 @@ jisp jisp程序源代码 [命令行参数]
 jisp -c jisp程序源代码 输出
 ```
 
-### Jisp 工程管理器 (`jisp-project.exe`, `jisp-project.exe`)
+### Jisp 工程管理器 (`jisp-project.exe`, `jisp-project`)
 该工具由Jisp语言自身写成，提供了jisp工程化的工具。    
 如果您需要编译该工具，请先将Jisp.Interpreter编译后加入PATH环境变量，然后使用PowerShell执行`build.ps1`以生成`jisp-project.exe`。
 
