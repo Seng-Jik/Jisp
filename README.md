@@ -9,7 +9,6 @@
     - [ ] 字符串操作函数
         - [ ] split
         - [ ] trim
-        - [ ] equals
     - [ ] 文件系统
         - [ ] copy
         - [ ] read-text-file

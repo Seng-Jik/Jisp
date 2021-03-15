@@ -426,6 +426,18 @@
 		(try-body (λ exception (break (catch-body exception)))) )) ))
 
 
+;;;;;;;; Strings
+
+;; String Equals Function
+;; Returns true if two string equals.
+($string-equals (Y (λ string-equals a b 
+	(? (& (is-empty a) (is-empty b)) 
+		true
+		(? (& (! (is-empty a)) (! (is-empty b)))
+			(? (= (head a) (head b)) (string-equals (tail a) (tail b)) false)
+			false) ) )))
+
+
 ;;;;;;;; IO
 
 ;; Print Function
