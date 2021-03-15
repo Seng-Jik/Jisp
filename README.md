@@ -4,6 +4,39 @@
 
 注意：由于dotnet工具链未知bug，无法将FSharp.Core锁定在4.7.2，所以请使用Visual Studio构建。
 
+## 后续工作
+- [ ] stdlib.jisp
+    - [ ] 字符串操作函数
+        - [ ] split
+        - [ ] trim
+        - [ ] equals
+    - [ ] 文件系统
+        - [ ] copy
+        - [ ] read-text-file
+    - [ ] Shell
+        - [ ] run-system-command
+- [ ] jisp-project
+    - [ ] 指令派发
+    - [ ] create
+    - [ ] create-lib
+    - [ ] 构建引擎
+    - [ ] build/run
+    - [ ] test new
+    - [ ] test run
+- [ ] Jisp.IDE
+    - [ ] 工程管理器
+        - [ ] 依赖管理
+        - [ ] 源代码管理
+        - [ ] 测试资源管理
+        - [ ] 基本配置信息 
+        - [ ] 启动构建
+        - [ ] 从工程处启动REPL
+        - [ ] 清理工程
+        - [ ] Run
+    - [ ] 文件编辑器
+        - [ ] 语法高亮
+        
+        
 ## 工具链用法
 
 ### Jisp 主工具（`jisp.exe`, `Jisp.Interpreter`)
