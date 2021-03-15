@@ -1,3 +1,6 @@
 project: jisp-project
 type: app
+src: characters.jisp
+src: project.jisp
+src: create.jisp
 src: main.jisp

@@ -1,1 +1,1 @@
-print-str-ln "Hello, world!"
+create-project-app "abc"

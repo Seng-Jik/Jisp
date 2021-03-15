@@ -59,6 +59,7 @@ test: test_second
 #### 创建一个Jisp项目
 ```shell
 jisp-project create 项目名称
+jisp-project create-lib 库项目名称
 ```
 
 #### 构建当前项目

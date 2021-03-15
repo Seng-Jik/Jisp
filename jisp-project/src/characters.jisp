@@ -1,0 +1,2 @@
+($dquot (tuple 34))  ; 双引号
+($nl (tuple 10))     ; 换行符

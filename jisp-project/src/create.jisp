@@ -1,0 +1,27 @@
+
+;; project-name -> unit
+($create-project-dir (λ project-name ( 
+    ($_ (create-directory project-name))
+    ($_ (create-directory (concat project-name "/src")))
+    ()
+)))
+
+;; project-name -> unit
+($create-project-app (λ project-name (
+    ($src-name "main.jisp")
+    ($project-config (project-create project-name "app" (tuple src-name)))
+    ($hello-world-example-jisp (concat "print-str-ln " dquot "Hello, world!" dquot nl))
+    ($_ (create-project-dir project-name))
+    ($_ (write-text-file hello-world-example-jisp (concat project-name "/src/" src-name)))
+    (project-save-config project-config project-name)
+)))
+
+;; project-name -> unit
+($create-project-lib (λ project-name (
+    ($src-name "lib.jisp")
+    ($project-config (project-create project-name "lib" (tuple src-name)))
+    ($lib-example-jisp (concat "($my-function (λ x (x)))"))
+    ($_ (create-project-dir project-name))
+    ($_ (write-text-file lib-example-jisp (concat project-name "/src/" src-name)))
+    (project-save-config project-config project-name)
+)))

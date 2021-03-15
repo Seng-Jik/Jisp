@@ -466,3 +466,13 @@
 ;; Read file from filesystem.
 ;; filename -> number tuple
 ;($read-file (λ filename (...)))
+
+;; Write Text File Function
+;; Write text file to filesystem.
+;; string -> filename -> unit
+;($write-text-file (λ content filename (...)))
+
+;; Create Directory Function
+;; Create directory to filesystem.
+;; directory-name -> unit
+;($create-directory (λ directory-name (...)))
