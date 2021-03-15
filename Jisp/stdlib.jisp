@@ -224,22 +224,27 @@
 ($first (nth 0))
 
 ;; Second Function
-;; Get the second element from tuple.
+;; Get second element from tuple.
 ;; tuple -> element
 ($second (nth 1))
 
 ;; Third Function
-;; Get the third element from tuple.
+;; Get third element from tuple.
 ;; tuple -> element
 ($third (nth 2))
 
 ;; Length Function
-;; Get the length of the tuple.
+;; Get length of the tuple.
 ;; tuple -> number
 ($len (Y (λ self t 
 	(? (is-empty t)
 		0
 		(+ 1 (self (tail t)))))))
+		
+;; Last Function
+;; Get last element of the tuple.
+;; a tuple -> a
+($last (λ t (nth (- (len t) 1) t)))
 
 ;; Map Function
 ;; Map a tuple.
@@ -455,6 +460,19 @@
 	(? (is-empty str) 
 		() 
 		(? (is-blank-char (head str)) (string-trim-start (tail str)) str) ) )))
+		
+;; String Trim End Function
+;; Returns string and trim end.
+;; string -> string
+($string-trim-end (Y (λ string-trim-end str
+	(? (is-empty str) 
+		() 
+		(? (is-blank-char (last str)) (string-trim-end (take (- (len str) 1) str)) str) ) )))
+		
+;; String Trim Function
+;; Returns trimmed string.
+;; string -> string
+($string-trim (λ x (string-trim-end (string-trim-start x))))
 
 
 ;;;;;;;; IO

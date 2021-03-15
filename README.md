@@ -8,9 +8,7 @@
 - [ ] stdlib.jisp
     - [ ] 字符串操作函数
         - [ ] split
-        - [ ] trim
     - [ ] 文件系统
-        - [ ] copy
         - [ ] read-text-file
     - [ ] Shell
         - [ ] run-system-command
