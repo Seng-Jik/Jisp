@@ -1,6 +1,8 @@
 # Jisp 编程语言
 
-一个基于 λ-演算 的饥饿求值编程语言。    
+一个基于 λ-演算 的饥饿求值编程语言。   
+
+注意：由于dotnet工具链未知bug，无法将FSharp.Core锁定在4.7.2，所以请使用Visual Studio构建。
 
 ## 工具链用法
 
@@ -20,12 +22,11 @@ jisp jisp程序源代码 [命令行参数]
 #### 编译一个Jisp程序
 ```shell
 jisp -c jisp程序源代码 输出
-jisp --compile jisp程序源代码 输出 
 ```
 
-### Jisp 工程管理器 (`jisp-project.exe`, `jisp-project`)
+### Jisp 工程管理器 (`jisp-project.exe`, `jisp-project.exe`)
 该工具由Jisp语言自身写成，提供了jisp工程化的工具。    
-如果您需要编译该工具，请执行`build-jisp-project.ps1`以生成`jisp-project.exe`。
+如果您需要编译该工具，请先将Jisp.Interpreter编译后加入PATH环境变量，然后使用PowerShell执行`build.ps1`以生成`jisp-project.exe`。
 
 #### Jisp 工程结构
 
@@ -38,11 +39,6 @@ hello_world				# 工程根目录
 |- tests					# 单元测试目录		
 |  |- test_first.jisp			# 单元测试源码
 |  |- test_second.jisp
-|- lib					# 引用的库目录
-|  |- libio.jisplib			# 库文件
-|- build					# 构建临时文件 (需要排除)
-|- hello_world.exe			# 发布的二进制文件 (需要排除)
-|- hello_world.jispapp		# 发布的Jisp App文件 (需要排除)
 |- project.yml				# 工程文件
 |- .gitignore				# git省略规则文件
 ```
@@ -62,17 +58,12 @@ test: test_second
 
 #### 创建一个Jisp项目
 ```shell
-jisp-project new 项目名称
+jisp-project create 项目名称
 ```
 
 #### 构建当前项目
 ```shell
 jisp-project build
-```
-
-#### 编译当前项目到可执行文件
-```shell
-jisp-project compile
 ```
 
 #### 运行当前项目

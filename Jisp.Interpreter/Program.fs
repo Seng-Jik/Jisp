@@ -116,7 +116,7 @@ let main args =
                     "--nologo"
                     "--standalone"
                     "--optimize+"
-                    "-o";dest
+                    "-o";sprintf "%s" <| System.IO.FileInfo(dest).FullName
                     "--target:exe"
                     "--crossoptimize+"
                     tempSource
@@ -125,7 +125,9 @@ let main args =
                 let checker = FSharp.Compiler.SourceCodeServices.FSharpChecker.Create ()
                 checker.Compile (List.toArray fscArgs)
                 |> Async.RunSynchronously
-                |> ignore
+                |> fun r -> 
+                    let r = fst r
+                    r |> Seq.map (fun x -> x.ToString ()) |> Seq.iter (printfn "%s")
 
                 System.IO.File.Delete tempSource
 

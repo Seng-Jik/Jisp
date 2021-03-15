@@ -2,7 +2,8 @@
 
 let preprocess (src:string) =
     let stdlib =
-        System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "stdlib.jisp"
+        System.Reflection.Assembly.GetExecutingAssembly().Location 
+        |> System.IO.FileInfo |> fun x -> x.DirectoryName + "/stdlib.jisp"
         |> System.IO.File.ReadAllText
         |> fun x -> x + "\n"
     (stdlib + src).Split '\n'

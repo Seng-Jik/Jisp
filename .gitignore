@@ -9,4 +9,6 @@
 /Jisp.Test/obj
 /Jisp.Test/bin
 /packages
-/.vs/Jisp
+/.vs
+/jisp-project/obj
+/jisp-project/jisp-project.exe
