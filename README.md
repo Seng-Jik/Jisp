@@ -5,13 +5,12 @@
 注意：由于dotnet工具链未知bug，无法将FSharp.Core锁定在4.7.2，所以请使用Visual Studio构建。
 
 ## 后续工作
-- [ ] stdlib.jisp
-    - [ ] Shell
-        - [ ] run
 - [ ] jisp-project
     - [ ] Project Parser
     - [ ] 构建引擎
-    - [ ] build/run
+    - [ ] build
+    - [ ] run
+    - [ ] clean
     - [ ] test new
     - [ ] test run
 - [ ] Jisp.IDE

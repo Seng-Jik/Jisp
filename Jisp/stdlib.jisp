@@ -51,11 +51,10 @@
 
 ;; If Operator
 ;; If condition is true, return a, otherwise, return b.
-;; Defined by Runtime.
+;; Defined by Runtime, it will ignore death code.
 ;; (bool) (a) (b) -> a or b
 ;; Can not be curried.
-;($? (λ condition a b
-;	((boolean-function condition) a b)))
+;($? (λ condition a b (condition a b)))
 
 
 ;;;;;;;; Boolean Operators
@@ -537,25 +536,42 @@
 
 ;; Read Line Function
 ;; Read line from console.
+;; Defined by runtime.
 ;; unit -> string
 ;($read-line (λ _ (...)))
 
 ;; Read Key Function
 ;; Read key from console.
+;; Defined by runtime.
 ;; unit -> char
 ;($read-key (λ _ (...)))
 
 ;; Read File Function
 ;; Read file from filesystem.
+;; Defined by runtime.
 ;; filename -> number tuple
 ;($read-file (λ filename (...)))
 
+;; Read Text File Function
+;; Read text file from filesystem.
+;; Defined by runtime.
+;; filename -> number tuple
+;($read-text-file (λ filename (...)))
+
 ;; Write Text File Function
 ;; Write text file to filesystem.
+;; Defined by runtime.
 ;; string -> filename -> unit
 ;($write-text-file (λ content filename (...)))
 
 ;; Create Directory Function
 ;; Create directory to filesystem.
+;; Defined by runtime.
 ;; directory-name -> unit
 ;($create-directory (λ directory-name (...)))
+
+;; System Function
+;; Call system command.
+;; Defined by runtime.
+;; command [-> argument -> ...] -> unit
+;($system (λ command arg1 arg2 ... (...)))
