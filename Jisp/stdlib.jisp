@@ -314,6 +314,12 @@
 	(? (> count 0) 
 		(cons (head t) (self (- count 1) (tail t)))
 		() ))))
+		
+;; Take While Function
+;; Take elements while condition returns true.
+;; (a -> bool) -> a tuple -> a tuple
+($take-while (Y (λ self condition t
+	(? (condition (head t)) (cons (head t) (self condition (tail t))) ()) )))
 
 ;; Skip Function
 ;; Skip left elements from tuple.

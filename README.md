@@ -6,8 +6,6 @@
 
 ## 后续工作
 - [ ] stdlib.jisp
-    - [ ] 字符串操作函数
-        - [ ] split
     - [ ] 文件系统
         - [ ] read-text-file
     - [ ] Shell
