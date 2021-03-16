@@ -68,13 +68,13 @@
 ;; bool -> bool -> bool
 ($& (λ a b (a b false)))
 
-;; Xor Operator
-;; bool -> bool -> bool
-($xor (λ a b (a (not b) b)))
-
 ;; Not Operator
 ;; bool -> bool
 ($! (λ a (a false true)))
+
+;; Xor Operator
+;; bool -> bool -> bool
+($xor (λ a b (a (! b) b)))
 
 ;;;;;;;; Function Operators
 
@@ -478,6 +478,31 @@
 ;; string -> string
 ($string-trim (λ x (string-trim-end (string-trim-start x))))
 
+;; String Find Index Function
+;; Find index for given element.
+;; Returns -1 if failed.
+;; char -> string -> int
+($string-find-index ((Y (λ self n c str 
+	(? (is-empty str)
+		-1
+		(? (= (head str) c)
+			n
+			(self (+ 1 n) c (tail str)) ) ) )) 0 ))
+
+;; String Char Exists
+;; Find given char in string, returns true if found.
+;; char -> string -> bool
+($string-char-exists (λ c str (!= -1 (string-find-index c str))))
+
+;; String Split Function
+;; Returns spllited strings in tuple.
+;; char -> string -> string tuple
+($string-split (Y (λ self c str
+	(? (is-empty str)
+		()
+		(? (string-char-exists c str)
+			(cons (take (string-find-index c str) str) (self c (skip (+ 1 (string-find-index c str)) str)))
+			(tuple str) ) ) )))
 
 ;;;;;;;; IO
 
@@ -504,6 +529,11 @@
 ;; Defined by Runtime.
 ;; string -> unit
 ;($print-str-ln (λ str (...)))
+
+;; Print Bool
+;; Print boolean function.
+;; bool -> unit
+($print-bool (λ b (print-str (b "true" "false"))))
 
 ;; Read Line Function
 ;; Read line from console.
