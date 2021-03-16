@@ -6,8 +6,6 @@
 
 ## 后续工作
 - [ ] stdlib.jisp
-    - [ ] 文件系统
-        - [ ] read-text-file
     - [ ] Shell
         - [ ] run-system-command
 - [ ] jisp-project

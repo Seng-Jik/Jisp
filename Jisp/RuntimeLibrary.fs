@@ -290,22 +290,32 @@ let jispCreateDirectory : RuntimeFunc = fun context ->
         |> Ok
     | _ -> Error (InvalidArguments ""))
 
+let private evalStr x =
+    x
+    |> List.map (function
+    | Number n -> char n
+    | _ -> failwith "?")
+    |> List.toArray
+    |> fun x -> new System.String (x)
+
 let jispWriteTextFile : RuntimeFunc = fun context ->
     evalParams context
     >> Result.bind (function
     | Tuple content :: Tuple name :: [] ->
-        let evalStr x =
-            x
-            |> List.map (function
-            | Number n -> char n
-            | _ -> failwith "?")
-            |> List.toArray
-            |> fun x -> new System.String (x)
-
         System.IO.File.WriteAllText (evalStr name, evalStr content)
         |> fun _ -> Tuple []
         |> Ok
-    | _ -> Error (InvalidArguments ""))
+    | _ -> Error (InvalidArguments "jispWriteTextFile"))
+
+let jispReadTextFile : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.bind (function
+    | Tuple name::[] ->
+        evalStr name
+        |> System.IO.File.ReadAllText
+        |> Seq.map (int >> decimal >> Number)
+        |> Seq.toList |> Tuple |> Ok
+    | _ -> Error (InvalidArguments "jispReadTextFile"))
 
 let jispReadKey : RuntimeFunc = fun _ _ ->
     System.Console.ReadKey (true)
@@ -339,7 +349,7 @@ let defaultContext : Context = {
         "print-str-ln", rtFunc printStrLn
 
         "read-file", rtFunc jispReadFile
-        // read-text-file
+        "read-text-file", rtFunc jispReadTextFile
         "create-directory", rtFunc jispCreateDirectory
         "write-text-file", rtFunc jispWriteTextFile
 

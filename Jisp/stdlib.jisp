@@ -320,6 +320,14 @@
 ;; (a -> bool) -> a tuple -> a tuple
 ($take-while (Y (λ self condition t
 	(? (condition (head t)) (cons (head t) (self condition (tail t))) ()) )))
+	
+;; Skip While Function
+;; Skip while condition returns true.
+;; (a -> bool) -> a tuple -> a tuple
+($skip-while (Y (λ self condition t
+	(? (is-empty t) 
+		() 
+		(? (condition (head t)) (self condition (tail t)) t) ) )))
 
 ;; Skip Function
 ;; Skip left elements from tuple.
