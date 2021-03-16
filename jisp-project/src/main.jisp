@@ -8,6 +8,7 @@
    ()
 )))
 
+($argv (map string-trim argv))
 ($operation (? (is-empty argv) "" (head argv)))
 
 (? (string-equals operation "create")
