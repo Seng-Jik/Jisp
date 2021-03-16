@@ -63,6 +63,7 @@
 ;; Or Operator
 ;; bool -> bool -> bool
 ($| (λ a b (a true b)))
+
 ;; And Operator
 ;; bool -> bool -> bool
 ($& (λ a b (a b false)))
