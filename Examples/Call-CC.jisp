@@ -8,7 +8,7 @@
 ;; loop
 ($_ (print-str-ln ""))
 ($_ (loop 10 (λ break continue state 
-	(($_ (? (% state 2) () (continue (- state 1))))
+	(($_ (? (= 1 (% state 2)) () (continue (- state 1))))
 		($_ (print state))
 		($next-state (- state 1))
 		(? (> next-state 0) next-state (break 0)) ))))
@@ -16,7 +16,7 @@
 ;; while
 ($_ (print-str-ln ""))
 ($_ (while 10 (λ s (> s 0)) (λ break continue s 
-	(($_ (? (% s 2) () (continue (- s 1))))
+	(($_ (? (= 1 (% s 2)) () (continue (- s 1))))
 		($_ (print s))
 		(- s 1) ))))
 		
@@ -31,7 +31,7 @@
 ($_ (for-each (range 1 10)
 	(λ break continue element
 		(($_ (? (> element 5) (break ()) ()))
-			($_ (? (% element 2) () (continue ()) ))
+			($_ (? (= (% element 2) 1) () (continue ()) ))
 			print element) ) ))
 			
 ;; for
@@ -39,7 +39,7 @@
 ($_ (for 1 10
 	(λ break continue element
 		(($_ (? (> element 5) (break ()) ()))
-			($_ (? (% element 2) () (continue ()) ))
+			($_ (? (= 1 (% element 2)) () (continue ()) ))
 			print element) ) ))
 			
 ;; try

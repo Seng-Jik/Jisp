@@ -1,9 +1,6 @@
 ;; Boolean in Jisp
 ;; By Seng-Jik
 
-
-($true true-function)
-($false false-function)
 ($print-bool (λ a (print-str (a "true" "false"))))
 
 ($_ (print-bool true))

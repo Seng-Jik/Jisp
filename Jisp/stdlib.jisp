@@ -41,23 +41,13 @@
 
 ;;;;;;;; Booleans
 
-;; Boolean Constants
-($true 1)
-($false 0)
-
 ;; True Function
 ;; a -> b -> a
-($true-function (λ a b (a)))
+($true (λ a b (a)))
 
 ;; False Function
 ;; a -> b -> b
-($false-function (λ a b (b)))
-
-;; Boolean-Function Function
-;; Get a boolean function from a boolean constant
-;; bool -> boolean-function
-($boolean-function (λ a 
-	(? a true-function false-function)))
+($false (λ a b (b)))
 
 ;; If Operator
 ;; If condition is true, return a, otherwise, return b.
@@ -72,19 +62,18 @@
 
 ;; Or Operator
 ;; bool -> bool -> bool
-($| (λ a b
-	(? a true (? b true false))))
-
+($| (λ a b (a true b)))
 ;; And Operator
 ;; bool -> bool -> bool
-($& (λ a b
-	(? a (? b true false) false)))
+($& (λ a b (a b false)))
+
+;; Xor Operator
+;; bool -> bool -> bool
+($xor (λ a b (a (not b) b)))
 
 ;; Not Operator
 ;; bool -> bool
-($! (λ a
-	(? a false true)))
-
+($! (λ a (a false true)))
 
 ;;;;;;;; Function Operators
 

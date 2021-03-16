@@ -12,8 +12,6 @@
         - [ ] read-text-file
     - [ ] Shell
         - [ ] run-system-command
-    - [ ] 重构
-        - [ ] 使用Boolean Function代替数字型bool
 - [ ] jisp-project
     - [ ] 指令派发
     - [ ] create

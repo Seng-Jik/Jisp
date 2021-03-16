@@ -31,12 +31,15 @@ let arithmeticOperator func =
                 | Error x -> Error x))
         >> Result.map Number
     rtFunc numberFunction
+
+let trueFunction = evalJispString "(λ a b (a))"
+let falseFunction = evalJispString "(λ a b (b))"
         
 let comparisonOperator func =
     let booleanFunction : RuntimeFunc = fun context ->
         evalParams context
         >> Result.bind (function
-        | (Number a)::(Number b)::[] -> (if (func a b) then 1M else 0M) |> Number |> Ok
+        | (Number a)::(Number b)::[] -> (if (func a b) then trueFunction else falseFunction) |> Ok
         | _ -> Error (InvalidArguments "For comparision operator, only pass 2 arguments."))
     rtFunc booleanFunction
         
@@ -44,9 +47,14 @@ let ifExpression : RuntimeFunc = fun context ->
     function
     | condition::yes::no::[] ->
         match eval context condition with
-        | Ok (Number x) when x <> 0M -> eval context yes
-        | Ok (Number x) when x = 0M -> eval context no
-        | Ok _ -> Error (InvalidArguments "For ? function, the first argument must be bool.")
+        | Ok (Lambda boolFunc) ->
+            let ast = Apply { Function = Value (Lambda boolFunc); Arguments = [Value (Number 1.0M); Value (Number 0.0M)] }
+            match eval context ast with
+            | Ok (Number 1.0M) -> eval context yes
+            | Ok (Number 0.0M) -> eval context no
+            | Ok _ -> Error (InvalidArguments "For ? function, the first argument must be bool function.")
+            | Error e -> Error e
+        | Ok _ -> Error (InvalidArguments "For ? function, the first argument must be bool function.")
         | Error e -> Error e
     | _ -> Error (InvalidArguments "For ? function, only pass 3 arguments.")
 
@@ -98,8 +106,8 @@ let isEmpty : RuntimeFunc = fun context ->
     | expr::[] ->
         eval context expr
         |> Result.bind (function
-        | Tuple [] -> Ok (Number 1M)
-        | Tuple _ -> Ok (Number 0M)
+        | Tuple [] -> Ok trueFunction
+        | Tuple _ -> Ok falseFunction
         | _ -> Error (InvalidArguments "For is-empty function, the argument should be tuple."))
     | _ -> Error (InvalidArguments "For is-empty function, only pass 1 argument.")
 
