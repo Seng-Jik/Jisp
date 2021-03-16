@@ -322,7 +322,33 @@ let jispReadKey : RuntimeFunc = fun _ _ ->
     |> fun x -> x.KeyChar
     |> (int >> JispNumber >> Number)
     |> Ok
-                
+
+let jispSystemRun : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.bind (function
+    | Tuple cmd:: args ->
+        let cmd = evalStr cmd
+        let args = 
+            args 
+            |> List.map (function
+            | Tuple n -> evalStr n
+            | _ -> failwith "jispRun failed.")
+        let args = 
+            match args with
+            | [] -> ""
+            | args -> Seq.reduce (fun a b -> a + " " + b) args
+        
+        let startInfo = new System.Diagnostics.ProcessStartInfo ()
+        startInfo.FileName <- cmd
+        startInfo.Arguments <- args
+        startInfo.CreateNoWindow <- true
+        startInfo.WorkingDirectory <- System.Environment.CurrentDirectory
+        
+        let prc = System.Diagnostics.Process.Start startInfo
+        prc.WaitForExit ()
+        Ok (Tuple [])
+    | _ -> Error (InvalidArguments "jispRun failed."))
+
 let defaultContext : Context = {
     Level = 0UL
     Local = 
@@ -348,6 +374,7 @@ let defaultContext : Context = {
         "print-str", rtFunc printStr
         "print-str-ln", rtFunc printStrLn
 
+        "system", rtFunc jispSystemRun
         "read-file", rtFunc jispReadFile
         "read-text-file", rtFunc jispReadTextFile
         "create-directory", rtFunc jispCreateDirectory

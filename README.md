@@ -7,7 +7,7 @@
 ## 后续工作
 - [ ] stdlib.jisp
     - [ ] Shell
-        - [ ] run-system-command
+        - [ ] run
 - [ ] jisp-project
     - [ ] Project Parser
     - [ ] 构建引擎
