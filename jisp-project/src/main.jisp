@@ -1,1 +1,22 @@
-create-project-app "abc"
+
+
+($print-help (λ _ (
+   ($_ (print-str-ln "Create a jisp app."))
+   ($_ (print-str-ln "   jisp-project create <project-name>"))
+   ($_ (print-str-ln "Create a jisp library."))
+   ($_ (print-str-ln "   jisp-project create-lib <project-name>"))
+   ()
+)))
+
+($operation (? (is-empty argv) "" (head argv)))
+
+(? (string-equals operation "create")
+   (create-project-app (nth 1 argv)) 
+(? (string-equals operation "create-lib")
+   (create-project-lib (nth 1 argv))
+
+(print-help ())
+))
+
+
+

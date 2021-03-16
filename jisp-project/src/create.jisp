@@ -3,7 +3,8 @@
 ($create-project-dir (λ project-name ( 
     ($_ (create-directory project-name))
     ($_ (create-directory (concat project-name "/src")))
-    ()
+    ($gitignore (concat "/obj" nl project-name nl (concat project-name ".exe") nl))
+    (write-text-file gitignore (concat project-name "/.gitignore"))
 )))
 
 ;; project-name -> unit

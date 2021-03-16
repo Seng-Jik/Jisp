@@ -13,9 +13,7 @@
     - [ ] Shell
         - [ ] run-system-command
 - [ ] jisp-project
-    - [ ] 指令派发
-    - [ ] create
-    - [ ] create-lib
+    - [ ] Project Parser
     - [ ] 构建引擎
     - [ ] build/run
     - [ ] test new
