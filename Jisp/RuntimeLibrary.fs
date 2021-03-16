@@ -349,6 +349,16 @@ let jispSystemRun : RuntimeFunc = fun context ->
         Ok (Tuple [])
     | _ -> Error (InvalidArguments "jispRun failed."))
 
+let jispDelete : RuntimeFunc = fun context ->
+    evalParams context
+    >> Result.bind (function 
+    | Tuple toDel::[] ->
+        let toDel = evalStr toDel
+        try System.IO.File.Delete toDel with _ -> ()
+        try System.IO.Directory.Delete (toDel, true) with _ -> ()
+        Ok <| Tuple []
+    | _ -> Error <| InvalidArguments "jispDelete")
+
 let defaultContext : Context = {
     Level = 0UL
     Local = 
@@ -375,6 +385,7 @@ let defaultContext : Context = {
         "print-str-ln", rtFunc printStrLn
 
         "system", rtFunc jispSystemRun
+        "delete", rtFunc jispDelete
         "read-file", rtFunc jispReadFile
         "read-text-file", rtFunc jispReadTextFile
         "create-directory", rtFunc jispCreateDirectory

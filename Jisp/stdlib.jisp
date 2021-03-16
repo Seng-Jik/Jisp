@@ -575,3 +575,9 @@
 ;; Defined by runtime.
 ;; command [-> argument -> ...] -> unit
 ;($system (λ command arg1 arg2 ... (...)))
+
+;; Delete Function
+;; Delete file from filesystem.
+;; Defined by runtime.
+;; file-or-dir-to-delete -> unit
+;($delete (λ file-or-dir-to-delete (...)))
