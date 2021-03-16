@@ -13,6 +13,17 @@ let test expect =
         |> function
         | Error e -> raise e
         | Ok value ->
+            let value =
+                match value with
+                | Lambda x ->           // For boolean function.
+                    let ast = Apply { 
+                        Function = Value (Lambda x)
+                        Arguments = [ Value (Number 1.0M); Value (Number 0.0M)] }
+                    let x = Jisp.Evalution.eval Jisp.RuntimeLibrary.defaultContext ast
+                    match x with
+                    | Ok v -> v
+                    | _ -> failwith "No!"
+                | x -> x
             match value with
             | Number value ->
                 if expect = value |> not then
@@ -68,8 +79,8 @@ let Basics () =
 let Booleans () =
     test 1M "true"
     test 0M "(false)"
-    test 100M "(boolean-function true) 100 200"
-    test 200M "(boolean-function false) 100 200"
+    test 100M "true 100 200"
+    test 200M "false 100 200"
 
 [<Test>]
 let BooleanOperators () =

@@ -14,7 +14,7 @@ let evalJispString =
     OurParserC.Input.create
     >> Jisp.Parser.Expression.expression
     >> Result.mapError fst
-    >> Result.bind (fst >> eval { Global = Map.empty; Local = Map.empty; Level = 0UL })
+    >> Result.bind (fst >> eval { Local = Map.empty; Level = 0UL })
     >> function
     | Ok v -> v
     | Error e -> raise e
@@ -315,8 +315,7 @@ let jispReadKey : RuntimeFunc = fun _ _ ->
                 
 let defaultContext : Context = {
     Level = 0UL
-    Local = Map.empty
-    Global = 
+    Local = 
     [
         "$bind",evalJispString "(λ value f (f value))"
         "?", rtFunc ifExpression

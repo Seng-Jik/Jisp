@@ -28,7 +28,6 @@ type JispFunc =
 | RuntimeFunc of RuntimeFunc
 
 type Context = {
-    Global : Map<string,JispValue>
     Local : Map<string,JispValue>
     Level : uint64
 }

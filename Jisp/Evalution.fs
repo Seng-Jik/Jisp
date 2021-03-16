@@ -13,10 +13,7 @@ let bindValues (binds:Map<string,JispValue>) nameValueSeq =
 let getValueFromContext (context:Context) (id:string) : Result<JispValue,exn> =
     match Map.tryFind id context.Local with
     | Some x -> Ok x
-    | None ->
-        match Map.tryFind id context.Global with
-        | Some x -> Ok x
-        | None -> Error (IdenifierNotFound id)
+    | None -> Error (IdenifierNotFound id)
     
 let evalParams context : JispExpr list -> Result<JispValue list,exn> = function
 | a :: tail -> 
