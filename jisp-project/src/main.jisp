@@ -1,10 +1,21 @@
 
 
 ($print-help (λ _ (
+   ($_ (print-str-ln "Jisp Project Manager"))
+   ($_ (print-str-ln ""))
    ($_ (print-str-ln "Create a jisp app."))
    ($_ (print-str-ln "   jisp-project create <project-name>"))
    ($_ (print-str-ln "Create a jisp library."))
    ($_ (print-str-ln "   jisp-project create-lib <project-name>"))
+   ($_ (print-str-ln "Show information of the project."))
+   ($_ (print-str-ln "   jisp-project info [project-name]"))
+   ($_ (print-str-ln "Run the project."))
+   ($_ (print-str-ln "   jisp-project run [args...]"))
+   ($_ (print-str-ln "Build the project."))
+   ($_ (print-str-ln "   jisp-project build [project-name]"))
+   ($_ (print-str-ln "Clean the project."))
+   ($_ (print-str-ln "   jisp-project clean [project-name]"))
+
    ()
 )))
 
