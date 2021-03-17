@@ -30,7 +30,8 @@
 ;; project-dir-path -> unit
 ($run-app (λ project-dir args
    (($project (project-load-config project-dir))
-   (system "jisp" (merge-project project-dir project) (reduce (λ a b (concat a " " b)) args)))
+   ($args (? (is-empty args) () (reduce (λ a b (concat a " " b)) args)))
+   (system "jisp" (merge-project project-dir project) args))
 ))
 
 ;; project-dir-path -> unit
