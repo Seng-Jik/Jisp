@@ -16,6 +16,8 @@
 (? (string-equals operation "create-lib")
    (create-project-lib (nth 1 argv))
    
+(? (string-equals operation "run")
+    (run-app "." (skip 1 argv))
    
 ($project-dir (? (>= (len argv) 2) (nth 1 argv) "."))
 (? (string-equals operation "info")
@@ -27,10 +29,13 @@
    ($_ (delete (concat project-dir "/" (project-get-name project))))
    ($_ (delete (concat project-dir "/" (project-get-name project) ".exe")))
    ())
-
+   
+(? (string-equals operation "build")
+    (($project (project-load-config project-dir))
+    (merge-app project-dir project))
 
 (print-help ())
-))))
+))))))
 
 
 

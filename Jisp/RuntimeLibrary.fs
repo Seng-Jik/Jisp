@@ -341,10 +341,10 @@ let jispSystemRun : RuntimeFunc = fun context ->
         let startInfo = new System.Diagnostics.ProcessStartInfo ()
         startInfo.FileName <- cmd
         startInfo.Arguments <- args
-        startInfo.CreateNoWindow <- true
+        startInfo.UseShellExecute <- false
         startInfo.WorkingDirectory <- System.Environment.CurrentDirectory
         
-        let prc = System.Diagnostics.Process.Start startInfo
+        let prc = System.Diagnostics.Process.Start(startInfo)
         prc.WaitForExit ()
         Ok (Tuple [])
     | _ -> Error (InvalidArguments "jispRun failed."))

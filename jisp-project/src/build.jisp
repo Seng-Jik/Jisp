@@ -1,0 +1,31 @@
+
+;; path tuple -> output-path -> unit
+($merge-src (λ src-paths out
+   (($merged (collect (λ path (concat (read-text-file path) " ")) src-paths))
+   (write-text-file merged out))
+))
+
+;; Project -> src-path tuple
+($resolve-src-path (λ project-dir project 
+   (($srcs (map (λ x (concat project-dir "/src/" x)) (project-get-src project)))
+   srcs)
+))
+
+;; unit -> unit
+($create-obj-dir (λ _ (create-directory "obj")))
+
+;; Project -> out-path
+($merge-app (λ project-dir project
+   (($_ (create-obj-dir ()))
+   ($project-name (project-get-name project))
+   ($resolved (resolve-src-path project-dir project))
+   ($output-path  (concat "obj/" project-name ".jisp"))
+   ($_ (merge-src resolved output-path))
+   output-path)
+))
+
+;; project-dir-path -> unit
+($run-app (λ project-dir args
+   (($project (project-load-config project-dir))
+   (system "jisp" (merge-app project-dir project) (reduce (λ a b (concat a " " b)) args)))
+))

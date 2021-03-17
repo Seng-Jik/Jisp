@@ -444,7 +444,7 @@
 
 ;; Is Blank Function
 ;; char -> bool
-($is-blank-char (λ c (| (= c ' ') (= c '	'))))
+($is-blank-char (λ c (| (| (= c ' ') (= c '	')) (= c 13) )))
 
 ;; String Equals Function
 ;; Returns true if two string equals.

@@ -40,10 +40,10 @@
    ))
    ($config (map del-line-comment config))
    ($config (map (λ x (map string-trim (string-split ':' x))) config))
-   ($project-name (second (head (filter (λ x (string-equals (first x) "project")) config))))
-   ($project-type (second (head (filter (λ x (string-equals (first x) "type")) config))))
+   ($project-name (string-trim (second (head (filter (λ x (string-equals (first x) "project")) config)))))
+   ($project-type (string-trim (second (head (filter (λ x (string-equals (first x) "type")) config)))))
    ($project-srcs (filter (λ x (string-equals (first x) "src")) config))
-   ($project-srcs (map (λ x (second x)) project-srcs))
+   ($project-srcs (map (λ x (string-trim (second x))) project-srcs))
    (project-create project-name project-type project-srcs)
 )))
 
