@@ -6,7 +6,6 @@
 
 ## 后续工作
 - [ ] jisp-project
-    - [ ] build
     - [ ] test new
     - [ ] test run
 - [ ] Jisp.IDE
