@@ -52,6 +52,6 @@
    ($_ (print-str-ln (concat "project name: " (project-get-name project))))
    ($_ (print-str-ln (concat "prject type: " (project-get-type project))))
    ($_ (print-str-ln "source code: "))
-   ($_ (map (λ x (print-str-ln (concat "    ./src/" x))) (project-get-src project)))
+   ($_ (map (λ x (print-str-ln (concat "    " x))) (project-get-src project)))
    ()
 ))

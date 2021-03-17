@@ -9,7 +9,6 @@
     - [ ] 构建引擎
     - [ ] build
     - [ ] run
-    - [ ] clean
     - [ ] test new
     - [ ] test run
 - [ ] Jisp.IDE
