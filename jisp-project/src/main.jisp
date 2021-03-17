@@ -15,9 +15,15 @@
    (create-project-app (nth 1 argv)) 
 (? (string-equals operation "create-lib")
    (create-project-lib (nth 1 argv))
+   
+   
+($project-name (? (>= (len argv) 2) (nth 1 argv) "."))
+(? (string-equals operation "info")
+   (print-project (project-load-config project-name))
+
 
 (print-help ())
-))
+)))
 
 
 

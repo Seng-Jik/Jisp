@@ -6,7 +6,6 @@
 
 ## 后续工作
 - [ ] jisp-project
-    - [ ] Project Parser
     - [ ] 构建引擎
     - [ ] build
     - [ ] run
