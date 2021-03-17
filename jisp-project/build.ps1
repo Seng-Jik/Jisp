@@ -23,9 +23,6 @@ foreach($projectLine in $project) {
             $src += $srcLine
         }
     }
-    else {
-        Write-Error ("Unknown property " + $key + ".")
-    }
 }
 
 Set-Content -Path ./obj/$projectName.jisp -Value $src

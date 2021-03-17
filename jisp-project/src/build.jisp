@@ -15,7 +15,7 @@
 ($create-obj-dir (λ _ (create-directory "obj")))
 
 ;; Project -> out-path
-($merge-app (λ project-dir project
+($merge-project (λ project-dir project
    (($_ (create-obj-dir ()))
    ($project-name (project-get-name project))
    ($resolved (resolve-src-path project-dir project))
@@ -27,11 +27,13 @@
 ;; project-dir-path -> unit
 ($run-app (λ project-dir args
    (($project (project-load-config project-dir))
-   (system "jisp" (merge-app project-dir project) (reduce (λ a b (concat a " " b)) args)))
+   (system "jisp" (merge-project project-dir project) (reduce (λ a b (concat a " " b)) args)))
 ))
 
 ;; project-dir-path -> unit
 ($build-app (λ project-dir
    (($project (project-load-config project-dir))
-   (system "jisp" "-c" (merge-app project-dir project) (concat project-dir "/" (project-get-name project) ".exe")))
+   ($merged-path (merge-project project-dir project))
+   (? (string-equals (project-get-type project) "lib") ()
+      (system "jisp" "-c" merged-path (concat project-dir "/" (project-get-name project) ".exe"))))
 ))

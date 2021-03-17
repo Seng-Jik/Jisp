@@ -3,11 +3,12 @@
 ;; 0. project-name: string
 ;; 1. project-type: string
 ;; 2. src: string tuple
+;; 3. lib: string tuple
 
 
 ;; project-name: string -> project-type: string -> srcs: string tuple -> Project
 ($project-create (λ project-name project-type srcs (
-    (tuple project-name project-type srcs) )))
+    (tuple project-name project-type srcs ()) )))
     
 ;; Project -> name: string
 ($project-get-name head)
@@ -17,6 +18,9 @@
 
 ;; Project -> srcs: string tuple
 ($project-get-src (nth 2))
+
+;; Project -> libs: string tuple
+($project-get-lib (nth 3))
     
 ;; Project -> project-dir: string -> unit
 ($project-save-config (λ project project-dir (
@@ -44,13 +48,18 @@
    ($project-type (string-trim (second (head (filter (λ x (string-equals (first x) "type")) config)))))
    ($project-srcs (filter (λ x (string-equals (first x) "src")) config))
    ($project-srcs (map (λ x (string-trim (second x))) project-srcs))
-   (project-create project-name project-type project-srcs)
+   ($project-libs (filter (λ x (string-equals (first x) "lib")) config))
+   ($project-libs (map (λ x (string-trim (second x))) project-libs))
+
+   (tuple project-name project-type project-srcs project-libs)
 )))
 
 ;; Project -> unit
 ($print-project (λ project
    ($_ (print-str-ln (concat "project name: " (project-get-name project))))
    ($_ (print-str-ln (concat "prject type: " (project-get-type project))))
+   ($_ (print-str-ln "libs: "))
+   ($_ (map (λ x (print-str-ln (concat "    " x))) (project-get-lib project)))
    ($_ (print-str-ln "source code: "))
    ($_ (map (λ x (print-str-ln (concat "    " x))) (project-get-src project)))
    ()
