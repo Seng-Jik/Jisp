@@ -1,14 +1,17 @@
 
 ;; path tuple -> output-path -> unit
 ($merge-src (λ src-paths out
-   (($merged (collect (λ path (concat (read-text-file path) " ")) src-paths))
+   (($merged (collect (λ path (concat (read-text-file path) " " (tuple 10))) src-paths))
    (write-text-file merged out))
 ))
 
 ;; Project -> src-path tuple
 ($resolve-src-path (λ project-dir project 
    (($srcs (map (λ x (concat project-dir "/src/" x)) (project-get-src project)))
-   srcs)
+   ($libs (project-get-lib project))
+   ($_ (map (λ lib (system "jisp-project" "build" lib)) libs))
+   ($lib-srcs (map (λ libdir (concat "obj/" (project-get-name (project-load-config libdir)) ".jisp")) libs))
+   (concat lib-srcs srcs))
 ))
 
 ;; unit -> unit
