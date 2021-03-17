@@ -34,7 +34,7 @@
 ))
 
 ;; project-dir-path -> unit
-($build-app (λ project-dir
+($build-project (λ project-dir
    (($project (project-load-config project-dir))
    ($merged-path (merge-project project-dir project))
    (? (string-equals (project-get-type project) "lib") ()
