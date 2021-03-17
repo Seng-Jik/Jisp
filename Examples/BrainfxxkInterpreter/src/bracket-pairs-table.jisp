@@ -1,0 +1,52 @@
+;; Structure: (tuple (tuple left-bracket-pc right-bracket-pc) ...)
+($bracket-pairs-position-table (
+	($all-instructions-position-table
+		((Y (λ self index src 
+			(? (is-empty src) 
+				() 
+				(cons
+					(tuple (head src) index)
+					(self (+ 1 index) (tail src)) ) ) )) 0 source-code)) 
+					
+	($bracket-position-table 
+		(filter (λ x (| (= (head x) '[') (= (head x) ']'))) all-instructions-position-table))
+		
+	($bracket-pairs-table-calc-result
+		(fold 
+			(λ state element
+				(? (= (head element) '[') 
+					(tuple (cons (second element) (first state)) (second state))
+					(($_ (? (is-empty (first state)) (failwith "Brackets not matched!") () ))
+						($left-position (head (first state)))
+						($right-position (second element))
+						($pair (tuple left-position right-position )) 
+						tuple (tail (first state)) (cons pair (second state)) ) ) ) 
+			(tuple () ())
+			bracket-position-table ) )
+
+	($_ (? (is-empty (first bracket-pairs-table-calc-result)) () 
+		(failwith "Brackets not matched!") ))
+			
+	second bracket-pairs-table-calc-result ))
+
+; pc -> pc
+($match-left-bracket-to-right-bracket (λ pc
+	(($condition (λ x (= pc (first x)))) 
+	second (head (filter condition bracket-pairs-position-table))) ))
+
+; pc -> pc
+($match-right-bracket-to-left-bracket (λ pc
+	(($condition (λ x (= pc (second x)))) 
+	first (head (filter condition bracket-pairs-position-table))) ))
+
+; context -> context
+($left-bracket-jump (λ context
+	(? (= 0 (get-current-byte context))
+		(set-pc (match-left-bracket-to-right-bracket (get-pc context)) context)
+		context ) ))
+
+; context -> context
+($right-bracket-jump (λ context
+	(? (!= 0 (get-current-byte context))
+		(set-pc (match-right-bracket-to-left-bracket (get-pc context)) context)
+		context ) ))

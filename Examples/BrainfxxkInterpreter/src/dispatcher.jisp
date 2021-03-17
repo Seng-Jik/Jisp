@@ -1,0 +1,26 @@
+($process-functions (tuple
+	(tuple '+' inc-current-byte)
+	(tuple '-' dec-current-byte)
+	(tuple '>' inc-pointer)
+	(tuple '<' dec-pointer)
+	(tuple '.' print-current-byte)
+	(tuple ',' read-key-to-current-byte) 
+	(tuple '[' left-bracket-jump)
+	(tuple ']' right-bracket-jump) ))
+
+; instuction -> (context -> context)
+($get-process-function-by-instuction (λ instruction
+	(($result (filter (λ x (= instruction (head x))) process-functions))
+		? (is-empty result) 
+			(λ context (context))
+			(second (head result))) ))
+
+($next-state (λ context
+	(($current-instruction (nth (get-pc context) source-code))
+		($processed-context ((get-process-function-by-instuction current-instruction) context))
+		inc-pc processed-context) ))
+
+($run (Y (λ self context
+	(? (>= (get-pc context) source-code-length)
+		()
+		(self (next-state context)) ) )))

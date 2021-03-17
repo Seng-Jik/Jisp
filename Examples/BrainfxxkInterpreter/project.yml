@@ -1,0 +1,8 @@
+project: BrainfxxkInterpreter
+type: app
+src: brainfxxk-helloworld.jisp
+src: source-code-loader.jisp
+src: interpreter-context.jisp
+src: bracket-pairs-table.jisp
+src: dispatcher.jisp
+src: main.jisp

@@ -1,0 +1,6 @@
+;; Life Game in Jisp
+;; By Seng Jik
+
+(Y (λ self m
+	(($_ (print-map m))
+		self (next-state m)) )) map-default

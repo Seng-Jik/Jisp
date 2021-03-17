@@ -1,0 +1,5 @@
+project: GameOfLife
+type: app
+src: map.jisp
+src: rule.jisp
+src: main.jisp

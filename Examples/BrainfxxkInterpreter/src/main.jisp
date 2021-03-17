@@ -1,0 +1,5 @@
+;; Brainfxxk Interpreter on Jisp
+;; http://www.muppetlabs.com/~breadbox/bf/
+;; By Seng Jik
+
+run default-context

@@ -1,0 +1,6 @@
+($source-code 
+	(? (is-empty argv)
+		hello-world
+		(read-file (head argv)) ))
+
+($source-code-length (len source-code))	

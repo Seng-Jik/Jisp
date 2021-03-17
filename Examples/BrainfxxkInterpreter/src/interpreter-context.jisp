@@ -1,0 +1,63 @@
+;; Structure: (tuple pc pointer mem)
+
+; round-number -> number -> number
+($round-number (Y (λ self round x
+	(? (>= x round) 
+		(% x round)
+		(? (< x 0)
+			(self round (+ x round))
+			x ) ) )))
+
+($mem-size 30000)
+($default-context 
+	(tuple 0 0 (generate mem-size (λ _ (0)))))
+
+; context -> pc
+($get-pc head)
+
+; pc -> context -> context
+($set-pc (set-nth 0))
+
+; context -> context
+($inc-pc (λ context
+	(set-pc (+ 1 (get-pc context)) context)))
+
+; context -> pointer
+($get-pointer second)
+
+; pointer -> context -> context
+($set-pointer (λ pointer context
+	(set-nth 1 (round-number mem-size pointer) context)))
+
+; context -> context
+($inc-pointer (λ context
+	(set-pointer (+ 1 (get-pointer context)) context)))
+
+; context -> context
+($dec-pointer (λ context
+	(set-pointer (- (get-pointer context) 1) context)))
+
+; context -> mem
+($get-mem third)
+
+; context -> byte
+($get-current-byte (λ context
+	(nth (get-pointer context) (get-mem context))))
+
+; byte -> context -> context
+($set-current-byte (λ byte context
+	(set-nth 2 (set-nth (get-pointer context) (round-number 256 byte) (get-mem context)) context) ))
+
+; context -> context
+($inc-current-byte (λ context		
+	(set-current-byte (+ 1 (get-current-byte context)) context) ))
+
+; context -> context
+($dec-current-byte (λ context
+	(set-current-byte (- (get-current-byte context) 1) context) ))
+
+;context -> context
+($print-current-byte (λ context
+	(($_ (print-str (get-current-byte context))) context) ))
+($read-key-to-current-byte (λ context 
+	(set-current-byte (read-key ()) context) ))
