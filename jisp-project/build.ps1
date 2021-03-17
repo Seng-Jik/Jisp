@@ -30,5 +30,5 @@ foreach($projectLine in $project) {
 
 Set-Content -Path ./obj/$projectName.jisp -Value $src
 
-jisp -c ./obj/$projectName.jisp ./$projectName.exe
+jisp "./obj/jisp-project.jisp" run build
 

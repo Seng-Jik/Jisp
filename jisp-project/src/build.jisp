@@ -29,3 +29,9 @@
    (($project (project-load-config project-dir))
    (system "jisp" (merge-app project-dir project) (reduce (λ a b (concat a " " b)) args)))
 ))
+
+;; project-dir-path -> unit
+($build-app (λ project-dir
+   (($project (project-load-config project-dir))
+   (system "jisp" "-c" (merge-app project-dir project) (concat project-dir "/" (project-get-name project) ".exe")))
+))

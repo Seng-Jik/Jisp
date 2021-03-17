@@ -32,7 +32,7 @@
    
 (? (string-equals operation "build")
     (($project (project-load-config project-dir))
-    (merge-app project-dir project))
+    (build-app project-dir))
 
 (print-help ())
 ))))))
