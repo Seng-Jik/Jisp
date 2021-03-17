@@ -3,11 +3,6 @@
 一个基于 λ-演算 的饥饿求值编程语言。   
 
 注意：由于dotnet工具链未知bug，无法将FSharp.Core锁定在4.7.2，所以请使用Visual Studio构建。
-
-## 后续工作
-- [ ] jisp-project
-    - [ ] test new
-    - [ ] test run
         
 ## 工具链用法
 
@@ -41,9 +36,6 @@ hello_world				# 工程根目录
 |  |- first.jisp				# 源码
 |  |- second.jisp
 |  |- main.jisp
-|- tests					# 单元测试目录		
-|  |- test_first.jisp			# 单元测试源码
-|  |- test_second.jisp
 |- project.yml				# 工程文件
 |- .gitignore				# git省略规则文件
 ```
@@ -57,8 +49,6 @@ lib: libio
 src: first.jisp
 src: second.jisp
 src: main.jisp
-test: test_first
-test: test_second
 ```
 
 #### 创建一个Jisp项目
@@ -75,18 +65,6 @@ jisp-project build
 #### 运行当前项目
 ```shell
 jisp-project run
-```
-
-#### 单元测试相关
-
-##### 创建单元测试
-```shell
-jisp-project test new 单元测试名称
-```
-
-##### 执行单元测试
-```shell
-jisp-project test run [单元测试名称]
 ```
 
 ## 特性
