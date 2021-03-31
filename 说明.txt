@@ -1,0 +1,61 @@
+本项目是实现了一个名为Jisp的编程语言，语言设计、编译器实现、解释器实现、工程系统实现和例子程序均为本人所写。
+
+以下为目录树及各个部件的作用：
+
+|- 可执行文件	// 这个文件夹包含了编译过后的Jisp语言编译器、解释器及工程管理系统，添加到%PATH%环境变量中即可使用
+|   |- jisp.exe		// Jisp语言编译器、解释器，使用说明参见“源代码/README.MD”
+|   |- jisp-project.exe	// Jisp大型软件工程构建系统、管理系统，使用说明同上，此程序使用Jisp语言本身所写
+|- 源代码
+|   |- Examples		// 使用Jisp语言编写的例子程序
+|   |   |- BrainfxxkInterpreter		// 图灵机的实现，证明Jisp语言具有图灵完备性，使用jisp-project构建
+|   |   |- GameOfLife			// 细胞自动机的实现（康威生命游戏），证明Jisp语言具有图灵完备性，使用jisp-project构建
+|   |   |- Boolean.jisp			// 布尔逻辑的实现
+|   |   |- BoxMonad.jisp		// 基本单子的实现
+|   |   |- Call-CC.jisp			// Call with current continuation函数的例子，并展示了Jisp语言如何使用控制流
+|   |   |- Church-Numerals.jisp		// 丘奇编码的实现，展示了如何使用Jisp语言利用皮亚诺公理从零构建自然数系统
+|   |   |- Fibonacci.jisp		// Jisp语言实现的斐波那契数列，用于展示Jisp语言如何使用Y组合子构造递归函数
+|   |   |- Functional-List.jisp		// 使用Jisp闭包实现的链表，用于证明Jisp可脱离语言内建的tuple工作
+|   |   |- HelloWorld.jisp		// Hello World程序
+|   |   |- PrintCommandLineArguments.jisp	// 演示Jisp语言如何读取命令行输入
+|   |- Jisp			// Jisp语言的核心程序，是一个.NET Framework 4.5.2项目，使用F#编程语言和Jisp本身编写
+|   |   |- Parser			// Jisp语言的解析器，用于将Jisp从文本转换为抽象语法树
+|   |   |- AST.fs			// 抽象语法树的定义
+|   |   |- Evalution.fs			// 定义了采用大步语义实现的Jisp语言解释器和指称语义实现的Jisp语言编译器
+|   |   |- RuntimeLibrary.fs		// 极小的基础运行时库，定义了极小一部分无法使用Jisp语言本身实现的函数，如Call-CC函数
+|   |   |- stdlib.jisp			// 使用Jisp语言本身定义的Jisp语言标准库
+|   |- Jisp.Interpreter		// Jisp语言工具的命令行界面，最终生成jisp.exe
+|   |- Jisp.Test		// 单元测试项目
+|   |- jisp-project		// 使用Jisp语言本身实现的Jisp工程管理与构建系统，用它实现大型Jisp软件的构建
+|   |- README.md		// 此项目的自说明文档，在这里可以找到此项目的说明
+
+直接使用Jisp：
+将“可执行文件”目录添加入PATH环境变量后，即可在命令行调用jisp和jisp-project命令以编译、执行、构建Jisp语言编写的程序。
+使用jisp xxx.jisp命令可以解释执行xxx.jisp
+使用jisp -c xxx.jisp xxx.exe命令可以将xxx.jisp编译为xxx.exe
+使用jisp-project create xxx命令可以创建一个大型jisp软件项目，名为xxx
+使用在大型Jisp软件项目的目录下执行jisp-project run可以执行这个项目
+使用在大型Jisp软件项目的目录下执行jisp-project build可以把这个项目编译为exe
+更多关于jisp和jisp-project的命令说明，jisp -help和jisp-project命令查看帮助。
+
+从零开始编译Jisp项目：
+
+一、部署Jisp主工具jisp.exe
+1. 安装Visual Studio 2019（包括.NET 桌面开发环境和.NET Framework 4.5.2目标包）
+2. 使用Visual Studio 2019打开“源代码/Jisp.sln”，使用Release模式编译Jisp.Interpreter项目，得到jisp.exe
+3. 将jisp.exe所在目录添加入%PATH%
+4. 在Example目录下执行jisp HelloWorld.jisp，执行Jisp语言的HelloWorld程序以测试解释器的工作情况。
+
+
+二、部署jisp-project
+1. 在确保第一步成功的情况下，打开PowerShell命令行。
+2. 通过cd命令跳转到“源代码/jisp-project”目录。
+3. 执行./build.ps1脚本，稍等即可生成jisp-project.exe
+4. 将jisp-project.exe所在目录添加入%PATH%，并测试jisp-project命令是否可用
+
+
+三、使用jisp-project来构建Jisp的大型项目“jisp-project”、“GameOfLife”和“BrainfxxkInterpreter”：
+1. 可以将jisp-project目录复制到其他处，使用jisp-project build命令构建其自身。
+2. 在GameOfLife和BrainfxxkInterpreter中可以使用jisp-project run命令直接运行或者使用jisp-project build来构建
+注意：BrainfxxkInterpreter是使用了Brainfxxk语言实现了HelloWorld，之后在Jisp语言实现的Brainfxxk解释器上执行。
+
+
