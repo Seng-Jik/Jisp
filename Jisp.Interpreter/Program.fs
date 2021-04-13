@@ -3,7 +3,7 @@
 let banner () =
     Console.ForegroundColor <- ConsoleColor.Green
     printfn "Jisp Programming Language"
-    printfn "Version 2.0"
+    printfn "Version 3.0"
     printfn ""
 
 let help () =

@@ -347,7 +347,7 @@ let defaultContext : Context = {
     Level = 0UL
     Local = 
     [
-        "bind",evalJispString "(λ value f (f value))"
+        "bind",evalJispString "(λ f value (f value))"
         "?", rtFunc ifExpression
 
         "is-empty", rtFunc isEmpty

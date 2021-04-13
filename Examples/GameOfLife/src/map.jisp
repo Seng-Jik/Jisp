@@ -12,8 +12,8 @@
 		
 ($print-map (λ m
 	($_ (print-str-ln "")) 
-	(for-each m (λ _1 _2 e 
-		(print-str-ln e) )) ))
+	(for-each m (λ _1 _2
+		(print-str-ln) )) ))
 		
 ($mapi ((Y (λ self n f t a b
 	(? (is-empty t) 

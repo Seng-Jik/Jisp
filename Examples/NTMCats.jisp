@@ -1,16 +1,18 @@
 
 ($catStatus (			;; 猫所有可能的状态集
-	(~cat true false)	;; 定义非确定性量cat，可能为true或false，猫的存活状态
-	(~bane true false)	;; 定义非确定性量bane，可能为true或false，毒药投放状态
-	
-	(? bane
-		(? cat				;; 如果已经投放毒药 
-			(tuple true false) 	;; 如果猫存活，则可能存活或死亡
-			(tuple false false))	;; 如果猫已经死亡，则只可能已经死亡
-		(? cat 				;; 如果没有投放毒药
-			(tuple true true) 	;; 则猫存活的情况下一定存活
-			(tuple false false))	;; 如果猫已经死亡则最终只能已经死亡
-	)
+	((λ bind (			;; 通过重定义bind来改变值绑定语法的语义
+		($cat (tuple true false))	;; 定义非确定性量cat，可能为true或false，猫的存活状态
+		($bane (tuple true false))	;; 定义非确定性量bane，可能为true或false，毒药投放状态
+		
+		(? bane
+			(? cat				;; 如果已经投放毒药 
+				(tuple true false) 	;; 如果猫存活，则可能存活或死亡
+				(tuple false false))	;; 如果猫已经死亡，则只可能已经死亡
+			(? cat 				;; 如果没有投放毒药
+				(tuple true true) 	;; 则猫存活的情况下一定存活
+				(tuple false false))	;; 如果猫已经死亡则最终只能已经死亡
+		)
+	)) map)
 ))
 
 ;; 对最终结果的结构进行两次扁平化，将其从一个二层的树转化为一个元组

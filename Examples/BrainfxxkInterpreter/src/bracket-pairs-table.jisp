@@ -9,7 +9,7 @@
 					(self (+ 1 index) (tail src)) ) ) )) 0 source-code)) 
 					
 	($bracket-position-table 
-		(filter (λ x (| (= (head x) '[') (= (head x) ']'))) all-instructions-position-table))
+		(filter (λ x (string-char-exists (head x) "[]")) all-instructions-position-table))
 		
 	($bracket-pairs-table-calc-result
 		(fold 
@@ -31,13 +31,13 @@
 
 ; pc -> pc
 ($match-left-bracket-to-right-bracket (λ pc
-	(($condition (λ x (= pc (first x)))) 
-	second (head (filter condition bracket-pairs-position-table))) ))
+	(($condition (|>> first (= pc))) 
+	second (find condition bracket-pairs-position-table)) ))
 
 ; pc -> pc
 ($match-right-bracket-to-left-bracket (λ pc
-	(($condition (λ x (= pc (second x)))) 
-	first (head (filter condition bracket-pairs-position-table))) ))
+	(($condition (|>> second (= pc))) 
+	first (find condition bracket-pairs-position-table)) ))
 
 ; context -> context
 ($left-bracket-jump (λ context

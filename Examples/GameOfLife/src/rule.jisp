@@ -25,7 +25,7 @@
 					 current-state
 					 ' ' ) ))
 					 
-			($rule (λ neibours-count current-state
-				(B-rule neibours-count (S-rule neibours-count current-state)) ))
+			($rule (λ neibours-count 
+				(<<| (B-rule neibours-count) (S-rule neibours-count)) ))
 
 			rule (count-neibours x y m) c) ) m) ))
