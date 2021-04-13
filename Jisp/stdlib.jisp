@@ -10,7 +10,7 @@
 ;; This function is a part of syntax.
 ;; Defined by Runtime.
 ;; value -> f -> (f value)
-;($$ (λ value f	
+;($bind (λ value f	
 ;	(f value)))
 
 ;; Ignore Function
@@ -30,6 +30,11 @@
 ;($Y (λ f 
 ;	($t (λ x (f (x x)))) 
 ;		t t))
+
+;; Id Function
+;; Return it self.
+;; a -> a
+($id (λ x (x)))
 
 
 ;;;;;;;; Booleans
@@ -72,13 +77,11 @@
 
 ;; Forward Function Combine Operator
 ;; a -> b -> (λ x (b (a x))
-($>> (λ f g 
-	(λ x (g (f (x))))))
+($>> (λ f g x (g (f x))))
 
 ;; Backward Function Combine Operator
 ;; a -> b -> (λ x (a (b x))
-($<< (λ f g 
-	(λ x (f (g (x))))))
+($>> (λ f g x (f (g x))))
 
 
 ;;;;;;;; Arithmetic Operators

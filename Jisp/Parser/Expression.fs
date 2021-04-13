@@ -54,7 +54,7 @@ let bindExpression = fun input ->
         bareExpression)
     |> Parsed.map (fun ((identifier,expr),continuation) ->
         Apply {
-            Function = Identifier "$bind"
+            Function = Identifier "bind"
             Arguments = [
                 expr
                 Value (Lambda (CustumFunc {

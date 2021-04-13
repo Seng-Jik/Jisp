@@ -53,7 +53,15 @@ let eval (context:Context) (ast:JispExpr) : Result<JispValue,exn> =
                     let argCount = List.length arguments
                     let paramCount = List.length func.Parameters
                     if argCount > paramCount then
-                        Error (InvalidArguments "Too much arguments passed.")
+                        Apply {
+                            Function = 
+                                Apply {
+                                    Function = Value <| Lambda f
+                                    Arguments = arguments |> List.take paramCount |> List.map Value
+                                }
+                            Arguments = arguments |> List.skip paramCount |> List.map Value
+                        }
+                        |> eval context
                     else
                         { func with
                             Parameters = List.skip argCount func.Parameters
