@@ -28,9 +28,11 @@ let eval (context:Context) (ast:JispExpr) : Result<JispValue,exn> =
     match ast with
     | Value v -> 
         match v with
-        | Lambda (CustumFunc x) -> 
-            { x with
-                FunctionContext = context.Local }
+        | Lambda (CustumFunc x) ->
+            if Map.isEmpty x.FunctionContext then
+                { x with
+                    FunctionContext = context.Local }
+            else x
             |> CustumFunc 
             |> Lambda
         | x -> x

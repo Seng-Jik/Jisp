@@ -8,9 +8,9 @@
 				($top-position (clamp 0 (- map-height 1) (- y 1)))
 				($bottom-position (clamp 0 (- map-height 1) (+ y 1)))
 				($neibour-and-self-count (len (filter (λ x (= '*' x)) 
-					(invoke concat (map 
+					(collect
 						(λ l (slice left-position right-position l)) 
-						(slice top-position bottom-position m))) )))
+						(slice top-position bottom-position m)) )))
 				? (= '*' (nth x (nth y m)))
 					(- neibour-and-self-count 1)
 					neibour-and-self-count ) ))

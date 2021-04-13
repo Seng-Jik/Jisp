@@ -19,13 +19,6 @@
 ($ignore (λ a
 	()))
 
-;; Invoke Function
-;; Invoke a function and pass arguments from tuple.
-;; Defined by Runtime.
-;; f -> arguments tuple -> (f arguments)
-($invoke (λ f a
-	(invoke f a)))
-
 ;; Eval Function
 ;; Invoke an expression from string.
 ;; Defined by Runtime.
@@ -242,12 +235,25 @@
 	(? (is-empty t)
 		()
 		(cons (f (head t)) (self f (tail t))) ))))
+		
+;; Fold Function
+;; Fold a tuple to a state.
+;; (state -> element -> state) -> state -> tuple -> state
+($fold (Y (λ self f state t 
+	(? (is-empty t) 
+		state
+		(self f (f state (head t)) (tail t)) ))))
+
+;; Invoke Function
+;; Invoke a function and pass arguments from tuple.
+;; f -> arguments tuple -> (f arguments)
+($invoke (fold (λ f v (f v))))
 
 ;; Collect Function
 ;; Collect a tuple.
 ;; (a -> b tuple) -> a tuple -> b tuple
 ($collect (λ f t
-	(invoke concat (map f t))))
+	(fold concat () (map f t))))
 
 ;; Filter Function
 ;; Filter a tuple.
@@ -285,14 +291,6 @@
 ;; count -> (index -> element) -> tuple
 ($generate (λ count generator (
 	map generator (range 0 (- count 1)))))
-
-;; Fold Function
-;; Fold a tuple to a state.
-;; (state -> element -> state) -> state -> tuple -> state
-($fold (Y (λ self f state t 
-	(? (is-empty t) 
-		state
-		(self f (f state (head t)) (tail t)) ))))
 
 ;; Reduce Function
 ;; Reduce a tuple to a value.

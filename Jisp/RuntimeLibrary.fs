@@ -163,22 +163,6 @@ let jispReadFile : RuntimeFunc = fun context ->
         with e -> Error e
     | _ -> Error (InvalidArguments "For read-file function, only pass 1 argument.")
 
-let jispInvoke : RuntimeFunc = fun context ->
-    evalParams context
-    >> Result.bind (function
-    | func::argPack::[] -> 
-        match func,argPack with
-        | Lambda func,Tuple args ->
-            Apply {
-                Function = Value (Lambda func)
-                Arguments = args |> List.map Value
-            }
-            |> eval (match func with
-                    | RuntimeFunc _ -> context
-                    | CustumFunc x -> {context with Local = x.FunctionContext})
-        | _ -> Error (InvalidArguments "For invoke function, the arguments should be function and a tuple.")
-    | _ -> Error (InvalidArguments "For read-file function, only pass 2 arguments."))
-
 let jispEval : RuntimeFunc = fun context ->
     evalParams context
     >> Result.bind (function
@@ -367,7 +351,6 @@ let defaultContext : Context = {
         "?", rtFunc ifExpression
 
         "is-empty", rtFunc isEmpty
-        "invoke",rtFunc jispInvoke
         "Y", rtFunc jispY
         "call-cc", rtFunc jispCallCC
         "eval", rtFunc jispEval
