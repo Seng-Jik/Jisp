@@ -97,10 +97,10 @@ let BooleanOperators () =
 
 [<Test>]
 let FunctionOperators () =
-    test 0M "(>> (| true) (& false)) true"
-    test 1M "(>> (| true) (& true)) false"
-    test 1M "(<< (| true) (& true)) false"
-    test 1M "(<< (| true) (& true)) false"
+    test 0M "(|>> (| true) (& false)) true"
+    test 1M "(|>> (| true) (& true)) false"
+    test 1M "(<<| (| true) (& true)) false"
+    test 1M "(<<| (| true) (& true)) false"
 
 [<Test>]
 let ArithmeticOperators () =
