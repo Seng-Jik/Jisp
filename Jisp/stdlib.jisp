@@ -272,7 +272,7 @@
 ;; Exists Function
 ;; Returns true if f returns true once.
 ;; (a -> bool) -> a tuple -> a
-($exists (<<| ! (||>> filter is-empty)))
+($exists (<<|| ! (||>> filter is-empty)))
 
 ;; Range Function
 ;; Generate a tuple by a integer range.
@@ -440,7 +440,7 @@
 
 ;; Is Blank Function
 ;; char -> bool
-($is-blank-char (λ c (| (| (= c ' ') (= c '	')) (= c 13) )))
+($is-blank-char (λ ch (exists (= ch) (tuple 13 ' ' '	'))))
 
 ;; String Equals Function
 ;; Returns true if two string equals.
@@ -455,10 +455,7 @@
 ;; String Trim Start Function
 ;; Returns string and trim start.
 ;; string -> string
-($string-trim-start (Y (λ string-trim-start str
-	(? (is-empty str) 
-		() 
-		(? (is-blank-char (head str)) (string-trim-start (tail str)) str) ) )))
+($string-trim-start (skip-while is-blank-char))
 		
 ;; String Trim End Function
 ;; Returns string and trim end.
@@ -471,7 +468,7 @@
 ;; String Trim Function
 ;; Returns trimmed string.
 ;; string -> string
-($string-trim (λ x (string-trim-end (string-trim-start x))))
+($string-trim (|>> string-trim-start string-trim-end))
 
 ;; String Find Index Function
 ;; Find index for given element.
@@ -487,7 +484,7 @@
 ;; String Char Exists
 ;; Find given char in string, returns true if found.
 ;; char -> string -> bool
-($string-char-exists (λ c str (!= -1 (string-find-index c str))))
+($string-char-exists (λ c (exists (= c))))
 
 ;; String Split Function
 ;; Returns spllited strings in tuple.
