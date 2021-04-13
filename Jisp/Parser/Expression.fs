@@ -65,6 +65,31 @@ let bindExpression = fun input ->
             ]
         })
 
+let ntmBindExpression = fun input ->
+    input |> (
+        let openExpr = openBracket <+> Parsers.character '~' >> Parsed.ignore
+        openExpr <+@> whitespace0 <+@> 
+        identifier <@+> whitespace1 <+> 
+        zeroOrMore (expression <@+> whitespace0) <@+> 
+        closeBracket <@+> whitespace0 <+>
+        bareExpression)
+    |> Parsed.map (fun ((identifier,expr),continuation) ->
+        Apply {
+            Function = Identifier "map"
+            Arguments = [
+                Value (Lambda (CustumFunc {
+                    Parameters = [identifier]
+                    Expression = continuation
+                    FunctionContext = Map.empty
+                }))
+
+                Apply {
+                    Function = Identifier "tuple"
+                    Arguments = expr
+                }
+            ]
+        })
+
 let lambdaExpression = fun input ->
     input |> (
         lambda <+@>
@@ -85,5 +110,6 @@ let expression =
     <|> lambdaExpression
     <|> (openBracket <+@> whitespace0 <+@> lambdaExpression <@+> whitespace0 <@+> closeBracket)
     <|> bindExpression
+    <|> ntmBindExpression
     <|> (openBracket <+@> whitespace0 <+@> bareExpression <@+> whitespace0 <@+> closeBracket)
 
