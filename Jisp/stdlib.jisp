@@ -15,8 +15,8 @@
 
 ;; Ignore Function
 ;; Ignore a value and return a unit.
-;; value -> unit
-($ignore (λ a
+;; a -> unit
+($ignore (λ _
 	()))
 
 ;; Eval Function
@@ -77,11 +77,19 @@
 
 ;; Forward Function Combine Operator
 ;; a -> b -> (λ x (b (a x))
-($>> (λ f g x (g (f x))))
+($|>> (λ f g x (g (f x))))
+
+;; Double Forward Function Combine Operator
+;; a -> b -> (λ x y (b (a x y))
+($||>> (λ f g x y (g (f x y))))
 
 ;; Backward Function Combine Operator
 ;; a -> b -> (λ x (a (b x))
-($>> (λ f g x (f (g x))))
+($<<| (λ f g x (f (g x))))
+
+;; Double Backward Function Combine Operator
+;; a -> b -> (λ x y (a (b x y))
+($<<|| (λ f g x y (f (g x y))))
 
 
 ;;;;;;;; Arithmetic Operators
@@ -119,14 +127,12 @@
 ($< (λ a b 
 	(< a b)))
 
-($!= (λ a b
-	(! (= a b))))
+($!= (||>> = !))
 
 ($<= (λ a b
 	(| (< a b) (= a b))))
 
-($> (λ a b 
-	(! (<= a b))))
+($> (||>> <= !))
 
 ($>= (λ a b 
 	(| (> a b) (= a b))))
@@ -137,12 +143,12 @@
 ;; Min Function
 ;; number -> number -> number
 ($min (λ a b 
-	(? (> a b) b a) ))
+	(? (< a b) a b) ))
 
 ;; Max Function
 ;; number -> number -> number
 ($max (λ a b 
-	(? (> a b) a b) ))
+	(? (< a b) b a) ))
 
 ;; Abs Function
 ;; number -> number
@@ -151,12 +157,7 @@
 
 ;; Clamp Function
 ;; min-number -> max-number -> number -> number
-($clamp (λ min max x 
-	(? (<= x min) 
-		min
-		(? (>= x max)
-			max
-			x))))
+($clamp (λ minv maxv (|>> (min maxv) (max minv))))
 
 
 ;;;;;;;; Tuple
@@ -182,8 +183,7 @@
 ;; Add a value to the most left of tuple.
 ;; Defined by Runtime
 ;; value -> tuple -> tuple
-($cons (λ value t
-	(concat (tuple value) t)))
+($cons (|>> tuple (λ x y (concat x y))))
 
 ;; Head Function
 ;; Return the most left element of tuple.
@@ -261,23 +261,18 @@
 ;; Filter Function
 ;; Filter a tuple.
 ;; (a -> bool) -> a tuple -> a tuple
-($filter (Y (λ self f t
-	(? (is-empty t)
-		()
-		(($r (self f (tail t))) 
-			(? (f (head t)) (cons (head t) r) r) )))))
+($filter (λ f 
+	(collect (λ item (? (f item) (tuple item) ())) )))
 
 ;; Find Function
 ;; Find a element from the tuple.
 ;; (a -> bool) -> a tuple -> a
-($find (λ f t
-	(head (filter f t)) ))
+($find (||>> filter head))
 	
 ;; Exists Function
 ;; Returns true if f returns true once.
 ;; (a -> bool) -> a tuple -> a
-($exists (λ f t
-	(! (is-empty (filter f t))) ))
+($exists (<<| ! (||>> filter is-empty)))
 
 ;; Range Function
 ;; Generate a tuple by a integer range.
