@@ -10,7 +10,7 @@
 ;; This function is a part of syntax.
 ;; Defined by Runtime.
 ;; value -> f -> (f value)
-;($bind (λ value f	
+;($bind (λ f value	
 ;	(f value)))
 
 ;; Ignore Function
