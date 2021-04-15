@@ -1,0 +1,7 @@
+($S (λ a b c ((a c) (b c))))
+($K (λ a b (a)))
+($I (λ a (a)))
+
+($iota (λ a (a S K)))
+
+iota (iota (iota (iota iota)))
