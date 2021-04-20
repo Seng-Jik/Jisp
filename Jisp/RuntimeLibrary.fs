@@ -185,21 +185,6 @@ let jispTuple : RuntimeFunc = fun context ->
     evalParams context
     >> Result.map Tuple
 
-let jispY : RuntimeFunc = fun context ->
-    evalParams context
-    >> Result.bind (function
-    | (Lambda f)::[] ->
-        let rec callSelf context : JispExpr list -> Result<JispValue,exn> =
-            evalParams context
-            >> Result.bind (fun x ->
-                Apply {
-                    Function = Value (Lambda f)
-                    Arguments = Value (rtFunc callSelf) :: (x |> List.map Value)
-                }
-                |> eval context)
-        Ok (rtFunc callSelf)
-    | _ -> Error (InvalidArguments "For Y combinator, only pass a function."))
-
 let jispConcat : RuntimeFunc = fun context a ->
     try
         evalParams context a
@@ -351,7 +336,6 @@ let defaultContext : Context = {
         "?", rtFunc ifExpression
 
         "is-empty", rtFunc isEmpty
-        "Y", rtFunc jispY
         "call-cc", rtFunc jispCallCC
         "eval", rtFunc jispEval
         "failwith", rtFunc jispFailwith
