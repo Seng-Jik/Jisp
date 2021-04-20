@@ -28,7 +28,6 @@
 ;; Y Combinator
 ;; Make a function can call it self.
 ;; (self -> a...) -> a...
-;; Defined by Runtime.
 ($Y (λ f (
 	($ t (λ x n (f (x x) n)))
 	t t)))
