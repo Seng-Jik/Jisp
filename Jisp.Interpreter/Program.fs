@@ -3,8 +3,10 @@
 let banner () =
     Console.ForegroundColor <- ConsoleColor.Green
     printfn "Jisp Programming Language"
-    printfn "Version 3.0"
+    printfn "Version 3.1"
     printfn ""
+
+let compilerEnabled = System.Environment.Version.Major < 5
 
 let help () =
     Console.ForegroundColor <- ConsoleColor.Gray
@@ -13,12 +15,12 @@ let help () =
     printfn "        jisp"
     printfn "    Run as Interpreter"
     printfn "        jisp <sourceCodeFile> <commandLineArguments>"
-    printfn "    Run as Compiler"
-    printfn "        jisp -c <sourceCodeFile> <outputFile>"
+    if compilerEnabled then
+        printfn "    Run as Compiler"
+        printfn "        jisp -c <sourceCodeFile> <outputFile>"
     printfn "    Display help information"
     printfn "        jisp -?"
     printfn ""
-
 
 [<EntryPoint>]
 let main argv = 
@@ -56,7 +58,7 @@ let main argv =
         Console.ForegroundColor <- ConsoleColor.Gray
         0  
 
-    | "-c"::src::dest::[] ->  // Run as compiler
+    | "-c"::src::dest::[] when compilerEnabled ->  // Run as compiler
         let src =
             src
             |> System.IO.File.ReadAllText

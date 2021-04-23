@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="nunit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Jisp\Jisp.fsproj" />
-    <PackageReference Include="FSharp.Core" Version="4.7.2" />
+    <PackageReference Include="FSharp.Core" Version="5.0.1" />
     <PackageReference Include="OurParserC" Version="2.0.5" />
   </ItemGroup>
 

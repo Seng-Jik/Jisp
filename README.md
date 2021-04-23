@@ -1,8 +1,6 @@
 # Jisp 编程语言
 
 一个基于 λ-演算 的饥饿求值编程语言。   
-
-注意：由于dotnet工具链未知bug，无法将FSharp.Core锁定在4.7.2，所以请使用Visual Studio构建。
         
 ## 工具链用法
 
