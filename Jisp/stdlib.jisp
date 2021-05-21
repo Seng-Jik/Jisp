@@ -355,6 +355,36 @@
 		(($next-state (first current-state)) 
 			($element (second current-state)) 
 			(cons element (self f next-state)) )))))
+			
+;; Sort-With Function
+;; Sort a tuple with a comparer.
+;; (a -> a -> bool) -> a tuple -> a tuple
+($sort-with (Y (λ sort-with comparer ls 
+	(? (<= (len ls) 1)
+		ls
+		(
+			($a (head ls))
+			($r (tail ls))
+			(concat
+				(sort-with comparer (filter (<<| ! (comparer a)) r))
+				(tuple a)
+				(sort-with comparer (filter (comparer a) r))
+			)
+		)
+	) 
+)))
+
+;; Sort-By Function
+;; Sort a tuple by a given mapping function.
+;; (a -> b) -> a tuple -> a tuple
+($sort-by (λ by ls (sort-with (λ a b (< (by a) (by b))) ls)))
+($sort-desc-by (λ by ls (sort-with (λ a b (> (by a) (by b))) ls)))
+
+;; Sort Function
+;; Sort a tuple.
+;; tuple -> tuple
+($sort (sort-by id))
+($sort-desc (sort-desc-by id))
 
 
 ;;;;;;;; Controls

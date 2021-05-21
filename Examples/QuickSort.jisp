@@ -1,0 +1,20 @@
+($sort-with (Y (λ sort-with comparer ls 
+	(? (<= (len ls) 1)
+		ls
+		(
+			($a (head ls))
+			($r (tail ls))
+			(concat
+				(sort-with comparer (filter (<<| ! (comparer a)) r))
+				(tuple a)
+				(sort-with comparer (filter (comparer a) r))
+			)
+		)
+	) 
+)))
+
+($sort-by (λ by ls (sort-with (λ a b (< (by a) (by b))) ls)))
+($sort-desc-by (λ by ls (sort-with (λ a b (> (by a) (by b))) ls)))
+($sort (sort-by id))
+($sort-desc (sort-desc-by id))
+sort (tuple 2 1 5 3 9 6 4)
