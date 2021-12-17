@@ -547,6 +547,10 @@
 ;; string -> unit
 ;($print-str (λ str (...)))
 
+;; Put String
+;; Put string.
+($put print-str)
+
 ;; Print String Line Function
 ;; Print a line of string.
 ;; Defined by Runtime.
